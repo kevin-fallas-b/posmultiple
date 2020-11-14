@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>S.A.E | Logout</title>
+    <title>P.O.S Multiple</title>
     <link rel="stylesheet" type="text/css" href="{{ url('/css/style.css') }}" />
 
     <link rel="icon" href="{{ url('/img/logo.png') }}" type="image/x-icon">
