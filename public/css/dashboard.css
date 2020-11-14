@@ -1,0 +1,33 @@
+#titulosuperior {
+    width: 100%;
+    margin-right: 5vw;
+    text-align: center;
+    font-size: 25px;
+}
+
+#logout:hover {
+    background-color: #cd2828;
+}
+
+@media only screen and (min-width: 600px) {
+    #hamburguesaabrirlado {
+        position: relative;
+        right: 5vw;
+    }
+    #barrasuperior {
+        margin-left: 5vw;
+    }
+}
+
+.disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.disabledcheck {
+    opacity: 0.2;
+}
+
+.fc-event {
+    cursor: pointer;
+}

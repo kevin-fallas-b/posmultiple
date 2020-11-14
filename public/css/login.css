@@ -1,0 +1,25 @@
+
+#btn_login{
+	border-radius: 80px;
+	background: #1DA1F2;
+	color: #FFF;
+	position: relative;
+	border: 0px;
+	padding: 5px;
+	margin: 10px 0 0 0;
+	height: 50px;
+	width: 50px;
+}
+#btn_login:hover{
+	background: #1A91DA;
+	cursor: pointer;
+}
+
+.lblAyuda{
+    transition: font-size 200ms ease-in-out;
+    line-height: 2;
+}
+.lblAyuda:hover{
+    font-size: larger;
+    cursor: pointer;
+}
