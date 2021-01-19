@@ -7,7 +7,7 @@
 
 <script src="{{url('/js/clientes.js')}}"></script>
 <input type="text" id="idusuario" hidden value="{{$_SESSION['user']->usu_id}}">
-<input type="text" id="idusuario" hidden value="{{$_SESSION['user']->usu_emp}}">
+<input type="text" id="idempresa" hidden value="{{$_SESSION['user']->usu_emp}}">
 <div class="container-fluid">
 
     <div class="row">

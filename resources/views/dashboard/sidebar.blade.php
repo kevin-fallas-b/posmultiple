@@ -54,23 +54,28 @@
           <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="{{ url('/administracion/reportes') }}" class="nav-link" id="linkreportes">
-                <i class="fas fa-chart-pie"></i>
+                <i class="far fa-circle nav-icon"></i>
                 <p>Reportes</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/administracion/productos') }}" class="nav-link" id="linkproductos">
-                <i class="fas fa-boxes"></i>
+                <i class="far fa-circle nav-icon"></i>
                 <p>Productos</p>
               </a>
             </li>
             <li class="nav-item">
               <a href="{{ url('/administracion/productos') }}" class="nav-link" id="linkproductos">
-                <i class="fas fa-users"></i>
+                <i class="far fa-circle nav-icon"></i>
                 <p>Usuarios</p>
               </a>
             </li>
-
+            <li class="nav-item">
+              <a href="{{ url('/administracion/empresas') }}" class="nav-link" id="linkproductos">
+                <i class="far fa-circle nav-icon"></i>
+                <p>Empresas</p>
+              </a>
+            </li>
           </ul>
         </li>
         <li class="nav-item">

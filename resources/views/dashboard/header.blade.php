@@ -15,7 +15,7 @@
 
 
     <div id="titulosuperior">
-      P.O.S Multiple
+      {{$_SESSION['user']->emp_nombre}}
     </div>
 
     <!-- Right navbar links -->

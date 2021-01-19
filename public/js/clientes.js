@@ -42,7 +42,7 @@ function inicial() {
     txtcorreo = document.getElementById('txtcorreo');
     txtotrassenas = document.getElementById('txtotrassenas');
     idusuario = document.getElementById('idusuario').value;
-    idemp = document.getElementById('idusuario').value;
+    idemp = document.getElementById('idempresa').value;
     chkjuridica = document.getElementById('chkjuridica');
     chkfisica = document.getElementById('chkfisica');
 

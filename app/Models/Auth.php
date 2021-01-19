@@ -19,7 +19,7 @@ class Auth extends Model
 
     public static function autenticar($correo, $contra)
     {
-        $user = DB::table('tbl_usuario')->where('usu_usuario', $correo)->first();
+        $user = DB::table('tbl_usuario as usuario')->join('tbl_empresa as empresa', 'usuario.usu_emp', '=', 'empresa.emp_id')->where('usu_usuario', $correo)->first();
         if ($user != null && Hash::check($contra, $user->usu_contra)) {
             //usuario autenticado
             session_start();
@@ -57,7 +57,7 @@ class Auth extends Model
         }
     }
 
-    //usado para crear el usuario admin cuando la BD esta vacia
+    
     public static function registrar($nombre, $apellidos, $correo, $contra, $telefono, $provincia, $canton, $distrito)
     {
         //verificar si telefono y correo ya existen
