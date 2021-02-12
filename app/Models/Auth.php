@@ -58,34 +58,21 @@ class Auth extends Model
     }
 
     
-    public static function registrar($nombre, $apellidos, $correo, $contra, $telefono, $provincia, $canton, $distrito)
-    {
-        //verificar si telefono y correo ya existen
-        if (DB::table('tbl_usuario')->where('usu_correo', $correo)->exists()) {
-            return 'Correo ya se encuentra registrado.';
-        }
-        if (DB::table('tbl_usuario')->where('usu_telefono', $telefono)->exists()) {
-            return 'Telefono ya se encuentra registrado.';
-        }
-
-        $funciono = DB::table('tbl_usuario')->insert(['usu_nombre' => $nombre, 'usu_apellido' => $apellidos, 'usu_telefono' => $telefono, 'usu_contra' => Hash::make($contra), 'usu_correo' => $correo, 'usu_provincia' => $provincia, 'usu_distrito' => $distrito, 'usu_canton' => $canton, 'usu_otrassenas' => '']);
-        if ($funciono) {
-            return 'exito';
-        }
-    }
 
     public static function recuperarContra($correo)
     {
         if (DB::table('tbl_usuario')->where('usu_correo', $correo)->exists()) {
             //enviar correo aqui
             $contra =  self::generarPass();
-            DB::table('tbl_usuario')->where('usu_correo', $correo)->update(['usu_contra' => Hash::make($contra)]);
+            DB::table('tbl_usuario')->where('usu_correo', $correo)->update(['usu_contra' => Hash::make($contra),'usu_cambioContra'=>1]);
 
             $user = DB::table('tbl_usuario')->where('usu_correo', $correo)->first();
+            //la variable $contra contiene la contraseña sin encriptar, se la enviamos al usuario en texto plano
             Mail::to($correo)->send(new RecuperarContra($user, $contra));
-            return 'exito';
+
+            return 1;//'exito';
         } else {
-            return 'No existe cuenta asociada al correo ingresado.';
+            return 0;//'No existe cuenta asociada al correo ingresado.';
         }
     }
 
@@ -99,5 +86,31 @@ class Auth extends Model
             $pass[] = $alphabet[$n];
         }
         return implode($pass);
+    }
+
+    public static function cambiarContra($usuario)
+    {
+        $user = DB::table('tbl_usuario as usuario')->join('tbl_empresa as empresa', 'usuario.usu_emp', '=', 'empresa.emp_id')->where('usu_usuario', $usuario)->first();
+        if ($user != null && $user->usu_cambioContra == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function ejecCambioContra($contra,$usuario){
+        if (DB::table('tbl_usuario')->where('usu_usuario', $usuario)->exists()) {
+            //enviar correo aqui
+            DB::table('tbl_usuario')->where('usu_usuario', $usuario)->update(['usu_contra' => Hash::make($contra),'usu_cambioContra'=>0]);
+            
+            //$user = DB::table('tbl_usuario as usuario')->join('tbl_empresa as empresa', 'usuario.usu_emp', '=', 'empresa.emp_id')->where('usu_usuario', $usuario)->first();
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            }
+            $_SESSION['user']->usu_cambioContra=0;
+            return true;//'exito';
+        } else {
+            return false;//'No existe cuenta asociada al correo ingresado.';
+        } 
     }
 }

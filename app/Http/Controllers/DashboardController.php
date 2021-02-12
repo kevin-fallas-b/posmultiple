@@ -40,6 +40,13 @@ class DashboardController extends Controller
             die();
             return false;
         }
+        if (isset($_SESSION['user'])){
+            if ($_SESSION['user']->usu_cambioContra==1){
+                header('Location: ' . URL::to('/cambioContra'), true, 307);
+                die();
+                return false;
+            }
+        }
         return true;
     }
 

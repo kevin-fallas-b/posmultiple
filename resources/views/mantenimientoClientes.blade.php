@@ -70,33 +70,33 @@
                             </div>
 
                             <div class="input-group mt-4  ">
-                                <select class="btn" style="border-color:black" id="provincia" required="">
-                                    <option value="1" hidden="">Seleccione una Provincia</option>
-                                    <option onclick="canton(1)">
+                                <select class="btn" style="border-color:black" id="provincia" required=""  onChange="canton(this.value)">
+                                <option value="1" hidden="">Seleccione una Provincia</option>
+                                    <option value = "1">
                                         San José
                                     </option>
-                                    <option onclick="canton(2)">
+                                    <option value = "2">
                                         Alajuela
                                     </option>
-                                    <option onclick="canton(3)">
+                                    <option value = "3">
                                         Cartago
                                     </option>
-                                    <option onclick="canton(4)">
+                                    <option value = "4">
                                         Heredia
                                     </option>
-                                    <option onclick="canton(5)">
+                                    <option value = "5">
                                         Guanacaste
                                     </option>
-                                    <option onclick="canton(6)">
+                                    <option value = "6">
                                         Puntarenas
                                     </option>
-                                    <option onclick="canton(7)">
+                                    <option value = "7">
                                         Limón
                                     </option>
-                                </select><select class="btn ml-3" style="border-color:black" id="cantones" required="" disabled>
+                                </select><select class="btn ml-3" style="border-color:black" id="cantones" required="" disabled onChange="distrito(this.value)">
                                     <option value="" hidden="">Seleccione un Canton</option>
 
-                                </select><select class="btn ml-3" style="border-color:black" id="distritos" required="" disabled>
+                                </select><select class="btn ml-3" style="border-color:black" id="distritos" required="" disabled onChange="setDistrito(this.value)">
                                     <option value="" hidden="">Seleccione un Distrito</option>
 
                                 </select>

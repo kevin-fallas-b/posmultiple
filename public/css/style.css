@@ -13,13 +13,14 @@ body {
     border-radius: 8px;
     min-width: 500px;
     width: 70vw;
-    min-height: 60vh;
+    /*min-height: 60vh;*/
+    height:auto;
     margin-left: 15vw;
     margin-top: 20vh;
     text-align: center;
     display: flex;
     justify-content: center;
-
+    padding-bottom: 50px;
 }
 
 #contenedorTitulos {
@@ -66,4 +67,59 @@ body {
     color: black;
     transition: all 0.5s ease-in-out;
     height: 25px;
+}
+#contenedorcerro{/*contiene el texto de la pantalla nolog*/
+    background: linear-gradient(90deg, rgba(56, 0, 54, 1) 0%, rgba(12, 186, 186, 1) 100%);
+    color: white;
+    position:absolute;
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+#cerrosession{
+    font-size:25px;
+}
+
+#sinadasucede{
+    color:white;
+    position:absolute;
+    width: 100%;
+    text-align: center;
+    bottom: 15vh;
+}
+
+
+@media only screen and (max-width: 700px) {
+
+    .centroblanco {
+        min-width: auto;
+        width: 70vw;
+        margin-right:15vw;
+        margin-top: 30vh;
+    }
+    #contenedorcentroIzquierda{
+        display: none;
+    }
+    .cajatexto{
+       width: 100%;
+       margin-left: 0px;
+       margin-top: 10px;
+    }
+    #contenedorcerro{/*contiene el texto de la pantalla nolog*/
+        height:100vh;
+        overflow: hidden;
+        margin: 0;
+    }
+    #sinadasucede{
+        color:white;
+        position:absolute;
+        width: 100%;
+        text-align: center;
+        bottom: 30vh;
+    }
+
 }

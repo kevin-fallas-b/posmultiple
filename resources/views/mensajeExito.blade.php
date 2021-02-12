@@ -11,17 +11,17 @@
     <?php
     
     use Illuminate\Support\Facades\URL;
-    header('Refresh: 2; URL=' . URL::to('/'));
+    header('Refresh: 5; URL=' . URL::to($dir) );
     ?>
 </head>
 
 <body style="    background: linear-gradient(90deg, rgba(56, 0, 54, 1) 0%, rgba(12, 186, 186, 1) 100%);">
 
     <div id="contenedorcerro">
-        <p id="cerrosession"> Por favor inicie sesion para poder utilizar el sistema.</p>
+        <p id="cerrosession"> {{$mensaje}}</p>
         <p id="cerrosession2"> Espere y pronto sera redireccionado.</p>
         <?php
-    echo '<a href="' . URL::to('/') . '" id="sinadasucede">Si nada sucede presione aqui.</a>';
+    echo '<a href="' .URL::to($dir)  . '" id="sinadasucede">Si nada sucede presione aqui.</a>';
     ?>
     </div>
 

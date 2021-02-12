@@ -235,7 +235,7 @@ function canton(provincia) {
             listaCantones = '<option value="" hidden="">Seleccione un Canton</option>';
             var arrayCantones = Object.values(response.data);
             for (var i = 0; i < arrayCantones.length; i++) {
-                listaCantones += '<option value="' + (i + 1) + '" onclick="distrito(' + (i + 1) + ')">' + arrayCantones[i] + '</option>'
+                listaCantones += '<option value="' + (i + 1) + '">' + arrayCantones[i] + '</option>'
             }
             selectorcantones.innerHTML = listaCantones;
             selectorcantones.removeAttribute('disabled')
@@ -250,7 +250,7 @@ function distrito(canton) {
             listaDistritos = '<option value="" hidden="">Seleccione un Distrito</option>';
             var arrayDistritos = Object.values(response.data);
             for (var i = 0; i < arrayDistritos.length; i++) {
-                listaDistritos += '<option  value="' + (i + 1) + '" onclick="setDistrito(' + (i + 1) + ')">' + arrayDistritos[i] + '</option>'
+                listaDistritos += '<option  value="' + (i + 1) + '">' + arrayDistritos[i] + '</option>'
             }
             selectorDistritos.innerHTML = listaDistritos;
             selectorDistritos.removeAttribute('disabled')

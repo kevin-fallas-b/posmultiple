@@ -8,7 +8,7 @@
 	padding: 5px;
 	margin: 10px 0 0 0;
 	height: 50px;
-	width: 50px;
+	width: 50px;	
 }
 #btn_login:hover{
 	background: #1A91DA;
@@ -22,4 +22,5 @@
 .lblAyuda:hover{
     font-size: larger;
     cursor: pointer;
-}
+} 
+  

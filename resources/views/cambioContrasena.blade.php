@@ -28,26 +28,30 @@
     }    
     ?>
     <div id="contenedorTitulos">
-        <label id="titulo">P.O.S Multiple</label>
+        <label id="titulo">Cambiar contraseña</label>
         <br>
-        <label id="lema">P.O.S Multiple</label>
     </div>
     <div class="centroblanco">
         <div id="contenedorcentroIzquierda">
-            <img src="{{ url('/img/laptop.png')}}" alt="">
+            <p> Por su seguridad es necesario cambiar la contraseña de su cuenta. <br>Para continuar, por favor introduzca una nueva contraseña.</p>
+            <br>
+            <p> Una contraseña segura debe contar con mayusculas, minisculas, numeros y caracteres especiales.</p>
         </div>
         <div id="contenedorcentroderecha">
-            <label>Ingresar al Sistema</label>
+            <!--<label>Cambiar contraseña</label>-->
             <br>
-            <form id="formlogin" method="POST" autocomplete="off">
+            <form id="formlogin" method="POST" autocomplete="off" action="{{route('cambiarContra')}}">
                 {{csrf_field()}}
-                <input type="text" id="txt_correo" name="txt_correo" placeholder="Usuario" title="correo" class="cajatexto"><br>
-                <input type="password" name="txt_password" id="txt_password" placeholder="**********" title="Contraseña" class="cajatexto" /><br />
+                <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" title="Contraseña" class="cajatexto form-control @error('contraseña') is-invalid @enderror" required><br>
+                @error('contraseña')
+                <?php
+                    echo "<script> mensajeError('" . $message . "'); </script>";
+                ?>
+                @enderror
+                <input type="password" name="txt_conf_contra" id="txt_conf_contra" placeholder="Confirmar contraseña" title="Contraseña" class="cajatexto" required /><br />
                 <input type="submit" value="OK" name="btn_login" id="btn_login">
             </form>
             <br><br>
-            
-            <label class="lblAyuda" onclick="olvidocontra()">Olvide mi contraseña</label>
         </div>
 
 
