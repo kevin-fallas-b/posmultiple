@@ -9,7 +9,7 @@
 <script src="{{url('/js/representantes.js')}}"></script>
 <input type="text" id="idempresa" hidden value="{{$_SESSION['user']->usu_emp}}">
 <?php
-    echo '<input type="text" id="idproveedor" hidden value="'.$_GET['pro_id'].'">'
+    echo '<input type="text" id="idproveedor" hidden value="'.$_GET['pro_id'].'"><input type="text" id="nombrePro" hidden value="'.$_GET['pro_nombre'].'">'
 ?>
 
 <div class="container-fluid">

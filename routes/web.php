@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsuariosController;
 use App\Http\Controllers\ProveedorController;
@@ -66,8 +67,6 @@ Route::post('/administracion/productos', [ProductoController::class, 'guardarPro
 
 Route::post('/administracion/buscarProductos' , [ProductoController::class, 'buscarProductos']);
 
-Route::post('/administracion/borrarProductos' , [ProductoController::class, 'borrarProducto']);
-
 
 
 Route::get('/administracion/representantes', [RepresentanteController::class, 'index']);
@@ -79,6 +78,24 @@ Route::post('/administracion/buscarRepresentantes' , [RepresentanteController::c
 Route::post('/administracion/borrarRepresentantes' , [RepresentanteController::class, 'borrarRepresentate']);
 
 
+
+Route::get('/administracion/categorias', [CategoriaController::class, 'index']);
+
+Route::get('/administracion/categoria', [CategoriaController::class, 'indexCategoria']);
+
+Route::post('/administracion/categorias', [CategoriaController::class, 'guardarCategoria']);
+
+Route::post('/administracion/buscarCategorias' , [CategoriaController::class, 'buscarCategoria']);
+
+Route::post('/administracion/borrarCategorias' , [CategoriaController::class, 'borrarCategoria']);
+
+Route::post('/administracion/crearRelacionCategorias' , [CategoriaController::class, 'crearRelacion']);
+
+Route::post('/administracion/borrarRelacionCategorias' , [CategoriaController::class, 'borrarRelacion']);
+
+Route::post('/administracion/buscarRelacionCategorias' , [CategoriaController::class, 'buscarRelacion']);
+
+Route::post('/administracion/cargarCategoriasEmpresa' , [CategoriaController::class, 'cargarCategoriasEmpresa']);
 
 Route::post('administracion/direcciones' , [DireccionController::class, 'guardarDireccion']);
 
@@ -122,9 +139,19 @@ Route::post('/administracion/actualizarPosMesas',[MesasController::class, 'actua
 
 Route::post('/administracion/eliminarMesa', [MesasController::class, 'eliminarMesa']);
 
+
 Route::get('/administracion/ordenes',[OrdenesController::class, 'index']);
 
 Route::post('/obtenerOrden',[OrdenesController::class,'obtenerOrden']);
+
+Route::post('/administracion/guardarOrden',[OrdenesController::class,'guardarOrden']);
+
+Route::post('/administracion/cargarOrdenes',[OrdenesController::class,'cargarOrdenes']);
+
+Route::post('/administracion/cargarProductosOrden',[OrdenesController::class,'cargarProductosOrden']);
+
+Route::post('/administracion/eliminarOrden',[OrdenesController::class,'eliminarOrden']);
+
 
 Route::post('/administracion/cargarProductos',[ProductoController::class,'cargarProductos']);
 
@@ -134,4 +161,6 @@ Route::get('/ingresarmercaderia',[ProductoController::class,'pantIngresarproduct
 Route::post('/getproducto' , [ProductoController::class, 'getProducto']);
 
 Route::post('/ingresarproductos' , [ProductoController::class, 'ingresarProductos']);
+
+
 

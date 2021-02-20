@@ -17,6 +17,7 @@
     <script src="{{url('/js/login.js')}}"></script>
     <script src="{{url('/js/posmultiple.js')}}"></script>
     <script src="{{ url('/js/alertify.min.js') }}"></script>
+    <script src="{{url('/js/recuperacioncontra.js')}}"></script>
 </head>
 
 <body>
@@ -41,13 +42,7 @@
             <br>
             <form id="formlogin" method="POST" autocomplete="off" action="{{route('recuperarcont')}}">
                 {{csrf_field()}}
-                <input type="email" id="correo" name="correo" placeholder="Correo" title="Correo" class="cajatexto form-control @error('correo') is-invalid @enderror" required><br>
-                @error('correo')
-                <?php
-                    echo "<script> mensajeError('" . $message . "'); </script>";
-                ?>
-                @enderror 
-                
+                <input type="text" id="correo" name="correo" placeholder="Correo" title="Correo" class="cajatexto"><br>
                 <input type="submit" value="OK" name="btn_login" id="btn_login">
             </form>
             <br><br>

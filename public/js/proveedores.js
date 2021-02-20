@@ -81,11 +81,13 @@ function buscarProveedor(texto){
         }).catch(function(error){
             alertify.error('Ocurrio un error interno al intentar buscar proveedores. Por favor intente mas tarde.');
         });
-        
 }
 
 function representantes(id){
-    window.location.href = getbaseurl()+'/administracion/representantes?pro_id='+id;
+    var proveedor = proveedores.filter(function(pro){
+        return pro['pro_proId'] == id;
+    });
+    window.location.href = getbaseurl()+'/administracion/representantes?pro_id='+id+'&pro_nombre=' +proveedor[0]['pro_proNombre'];
 }
 
 function guardar(){

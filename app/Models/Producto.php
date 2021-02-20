@@ -43,13 +43,6 @@ class Producto extends Model
         }
     }
 
-    public static function borrar($id){
-        $exito = DB::table('tbl_producto')->where('pro_id',$id)->delete();
-        if($exito){
-            return 'exito';
-        }
-    }
-
     public static function fetch($nombre, $emp){
         return DB::table('tbl_producto as producto')->join('tbl_proveedor as proveedor', 'producto.pro_pro', '=', 'proveedor.pro_proId')->where('producto.pro_emp', $emp)->where('pro_nombre', 'LIKE', $nombre . '%')->get(); 
     }
@@ -75,7 +68,11 @@ class Producto extends Model
     }
 
     public static function cargarProductosPorNombre($id_empresa,$nombre){
-        return DB::table('tbl_producto as producto')->join('tbl_proveedor as proveedor', 'producto.pro_pro', '=', 'proveedor.pro_proId')->where('producto.pro_emp', $id_empresa)->where('pro_nombre', 'LIKE', $nombre . '%')->get();
+        return DB::table('tbl_producto as producto')
+                    ->join('tbl_proveedor as proveedor', 'producto.pro_pro', '=', 'proveedor.pro_proId')
+                    ->join('tbl_categoriaxproducto as cxp', 'producto.pro_id', '=', 'cxp.cxp_producto')
+                    ->join('tbl_categoria as categoria', 'cxp.cxp_categoria', '=', 'categoria.cat_id') 
+                    ->where('producto.pro_emp', $id_empresa)->where('pro_nombre', 'LIKE', $nombre . '%')->get();
     }
 
     public static function cargarProductosPorCodigo($id_empresa,$codigo){

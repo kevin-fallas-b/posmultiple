@@ -23,7 +23,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ url('/bower_components/admin-lte/dist/css/adminlte.min.css') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-
+  
   <!-- REQUIRED SCRIPTS -->
   <script src="{{ url('/js/posmultiple.js') }}"></script>
   <script src="{{ url('/js/alertify.min.js') }}"></script>
@@ -34,6 +34,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <script src="{{ url('/bower_components/admin-lte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <!-- AdminLTE App -->
   <script src="{{ url('/bower_components/admin-lte/dist/js/adminlte.min.js') }}"></script>
+
 </head>
 
 

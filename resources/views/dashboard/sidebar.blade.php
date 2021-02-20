@@ -15,18 +15,10 @@
 
 
         <li class="nav-item">
-          <a href="{{ url('/dashboard/agregar') }}" class="nav-link" id="linkagregar">
-            <i class="nav-icon far fa-edit"></i>
-            <p>
-              Ordenes
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
           <a href="{{ url('/administracion/ordenes') }}" class="nav-link" id="linkordenes">
             <i class="nav-icon far fa-edit"></i>
             <p>
-              Ordenes Restaurante
+              Ordenes
             </p>
           </a>
         </li>

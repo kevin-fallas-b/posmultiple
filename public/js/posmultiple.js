@@ -28,7 +28,6 @@ function getbaseurl() {
     return getUrl.protocol + "//" + getUrl.host;
 }
 
-
 //metodo validar la integridad y longitud de un string
 function stringvalido(revisar, tamanomax) {
     //revisar que no sea nulo

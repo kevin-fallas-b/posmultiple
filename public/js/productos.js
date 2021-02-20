@@ -218,9 +218,9 @@ function llenarTabla(){
     tabla.innerHTML = '';
     productos.forEach(producto => {
         if(producto['pro_controlInventario'] == 's'){
-            tabla.innerHTML += '<tr><td>'+producto['pro_nombre']+'</td><td>'+producto['pro_proNombre']+'</td><td>'+producto['pro_precio']+'</td><td><input type="checkbox" class="ml-5" disabled checked></td><td>'+producto['pro_cantidad']+'</td><td>'+verUnidad(producto['pro_unidadMedida'])+'</td><td><button type="button" class="btn btn-primary ml-2" onClick="visualizar('+producto['pro_id']+')">Visualizar</button></td></tr>';
+            tabla.innerHTML += '<tr><td>'+producto['pro_nombre']+'</td><td>'+producto['pro_proNombre']+'</td><td>'+producto['pro_precio']+'</td><td><input type="checkbox" class="ml-5" disabled checked></td><td>'+producto['pro_cantidad']+'</td><td>'+verUnidad(producto['pro_unidadMedida'])+'<td><button type="button" class="btn btn-primary ml-2" onClick="visualizar('+producto['pro_id']+')">Visualizar</button></td><td><button type="button" class="btn btn-primary ml-2" onClick="categorias('+producto['pro_id']+')">Categorias</button></td></tr>';
         }else{
-            tabla.innerHTML += '<tr><td>'+producto['pro_nombre']+'</td><td>'+producto['pro_proNombre']+'</td><td>'+producto['pro_precio']+'</td><td><input type="checkbox" class="ml-5" disabled></td><td>'+producto['pro_cantidad']+'</td><td>'+verUnidad(producto['pro_unidadMedida'])+'</td><td><button type="button" class="btn btn-primary ml-2" onClick="visualizar('+producto['pro_id']+')">Visualizar</button></td></tr>';
+            tabla.innerHTML += '<tr><td>'+producto['pro_nombre']+'</td><td>'+producto['pro_proNombre']+'</td><td>'+producto['pro_precio']+'</td><td><input type="checkbox" class="ml-5" disabled></td><td>'+producto['pro_cantidad']+'</td><td>'+verUnidad(producto['pro_unidadMedida'])+'</td><td><button type="button" class="btn btn-primary ml-2" onClick="visualizar('+producto['pro_id']+')">Visualizar</button></td><td><button type="button" class="btn btn-primary ml-2" onClick="categorias('+producto['pro_id']+')">Categorias</button></td></tr>';
         }
     });
 }
@@ -236,6 +236,17 @@ function nuevo(){
     btnGuardar.removeAttribute('hidden');
     btnEditar.setAttribute('hidden',true);
     contenedorcampos.removeAttribute('hidden');
+}
+
+function categorias(id){
+    var producto = productos.filter(function(pro){
+        return pro['pro_id'] == id;
+    });
+    window.location.href = getbaseurl()+'/administracion/categoria?pro_id='+id+'&pro_nombre='+producto[0]['pro_nombre'];
+}
+
+function mantenimientoCategoria(){
+    window.location.href = getbaseurl()+'/administracion/categorias';
 }
 
 function visualizar(id){

@@ -16,6 +16,7 @@
 
     <script src="{{url('/js/login.js')}}"></script>
     <script src="{{url('/js/posmultiple.js')}}"></script>
+    <script src="{{url('/js/cambiocontra.js')}}"></script>
     <script src="{{ url('/js/alertify.min.js') }}"></script>
     <script src="{{ url('/js/axios.min.js') }}"></script>
 
@@ -42,13 +43,9 @@
             <br>
             <form id="formlogin" method="POST" autocomplete="off" action="{{route('cambiarContra')}}">
                 {{csrf_field()}}
-                <input type="password" id="contraseña" name="contraseña" placeholder="Contraseña" title="Contraseña" class="cajatexto form-control @error('contraseña') is-invalid @enderror" required><br>
-                @error('contraseña')
-                <?php
-                    echo "<script> mensajeError('" . $message . "'); </script>";
-                ?>
-                @enderror
-                <input type="password" name="txt_conf_contra" id="txt_conf_contra" placeholder="Confirmar contraseña" title="Contraseña" class="cajatexto" required /><br />
+                <input type="password" id="contra" name="contra" placeholder="Contraseña" title="Contraseña" class="cajatexto"><br>
+                 
+                <input type="password" name="conf_contra" id="conf_contra" placeholder="Confirmar contraseña" title="Contraseña" class="cajatexto"/><br />
                 <input type="submit" value="OK" name="btn_login" id="btn_login">
             </form>
             <br><br>

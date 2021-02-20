@@ -34,7 +34,7 @@ function inicial(){
     btnGuardar = document.getElementById('btnguardar');
     btnEditar = document.getElementById('btneditar');
     primeraFila = document.getElementById('primerfila');
-    titulo = document.getElementById('titulo');
+    document.getElementById('titulo').innerHTML = 'Representantes de: '+document.getElementById('nombrePro').value;
     editando = false;
     buscarRepresentante('');
 }

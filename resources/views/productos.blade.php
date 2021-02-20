@@ -19,6 +19,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h3 class="card-title">Productos</h3>
+                        <button style="position: absolute;right:20px;top:3.5px" type="button" class="btn btn-success ml-1" onclick="mantenimientoCategoria()">Mantenimiento de Categorias</button>
                     </div>
                     <div class="card-body">
 

@@ -69,10 +69,6 @@ class ProductoController extends Controller{
         }
     }
 
-    public function borrarProducto(){
-        return Producto::borrar($_POST['id']);
-    }
-
     public function getProducto(){
         return Producto::getProducto($_POST['codigoBarras'],$_POST['emp']);
     }
