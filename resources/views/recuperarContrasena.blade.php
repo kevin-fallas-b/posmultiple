@@ -5,12 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--title>P.O.S Multiple</title>-->
-    <link rel="stylesheet" href="{{ url('/css/style.css') }}">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+   <link rel="stylesheet" href="{{ url('/css/style.css') }}">
+
     <link rel="icon" href="{{ url('/img/logo.png') }}" type="image/x-icon">
     <link rel="shortcut icon" type="image/x-icon" href="{{ url('/img/logo.png') }}" />
+    
     <link rel="stylesheet" type="text/css" href="{{ url('/css/alertify.min.css') }}" />
     <link rel="stylesheet" href="{{ url('/css/login.css') }}">
 
@@ -43,7 +42,8 @@
             <form id="formlogin" method="POST" autocomplete="off" action="{{route('recuperarcont')}}">
                 {{csrf_field()}}
                 <input type="text" id="correo" name="correo" placeholder="Correo" title="Correo" class="cajatexto"><br>
-                <input type="submit" value="OK" name="btn_login" id="btn_login">
+                <button type="button" id="btn_cancelar" onclick="cancelar()">Cancelar</button> 
+                <input type="submit" value="OK" name="btn_login" class="ml-5" id="btn_login">
             </form>
             <br><br>
         </div>

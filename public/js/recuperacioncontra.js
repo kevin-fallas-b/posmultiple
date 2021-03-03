@@ -21,3 +21,7 @@ function validarFormulario(e){
         }
 	} 
 }
+
+function cancelar(){
+    window.location.href = getbaseurl();
+}

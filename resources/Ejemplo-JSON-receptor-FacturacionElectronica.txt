@@ -1,0 +1,9 @@
+﻿{
+  "nombre": "Juan Martinez",
+  "tipoCedula": 01,
+  "cedula": 101130412,
+  "direccion": 11902,
+  "otrasSenas": "Daniel flores",
+  "telefono": 84215692,
+  "correo": "kevin.fallas.b@gmail.com"
+}

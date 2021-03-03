@@ -329,7 +329,7 @@ function limpiar(){
 function llenar(producto){
     txtNombre.value = producto['pro_nombre'];
     txtPrecio.value = producto['pro_precio'];
-    txtDescripcion.value = producto['pro_precio'];
+    txtDescripcion.value = producto['pro_descripcion'];
     txtCantidad.value = producto['pro_cantidad'];
     if(producto['pro_controlInventario'] == 's'){
         $('#checkactivo').bootstrapToggle('on');

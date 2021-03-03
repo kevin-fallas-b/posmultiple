@@ -33,7 +33,7 @@
                                 Proveedor
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownBusqueda" style='width:100px' id="dropBusqueda"></div>
-                            <button id="btnnuevo" type="button" class="btn btn-primary ml-2" onclick="nuevo()"> Nuevo
+                            <button id="btnnuevo" type="button" class="btn btn-success ml-1" onclick="nuevo()"> Nuevo
                             </button>
                         </div>
 

@@ -123,3 +123,25 @@ body {
     }
 
 }
+
+#btn_cancelar{
+    border-radius: 40px;
+	background: #dc3545;
+	color: #FFF;
+	position: relative;
+	border: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+	margin: 10px 0 0 0;
+    height: 50px;	
+    font-family:Arial;
+     
+    font-family: 'Raleway', sans-serif;
+}
+
+#btn_cancelar:hover{
+    background: #c82333;
+	cursor: pointer;
+}

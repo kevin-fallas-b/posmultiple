@@ -145,3 +145,7 @@ function cancelar(){
     contenedorcampos.setAttribute('hidden', true);
     idCat=0;
 }
+
+function productos(){
+    window.location.href = getbaseurl()+'/administracion/productos';
+}

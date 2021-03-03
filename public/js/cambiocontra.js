@@ -24,9 +24,40 @@ function validarFormulario(e){
             mensajeError("Debe ingresar una contraseña");
         }
 	}else{
-        if(txt_contra.value!=txt_conf_contra.value){
+        if(txt_contra.value.length<8){
             e.preventDefault();
-            mensajeError("La contraseña ingresada, no coincide con el campo de verificación");
+            mensajeError("La contraseña debe tener al menos 8 caracteres");
+        }else{
+            var val_txtconf = true;
+            var mayuscula = false;
+            var minuscula = false;
+            var numero = false;
+            
+            for(var i = 0;i<txt_contra.value.length;i++)
+            {
+                if(txt_contra.value.charCodeAt(i) >= 65 && txt_contra.value.charCodeAt(i) <= 90){
+                    mayuscula = true;
+                }
+                else if(txt_contra.value.charCodeAt(i) >= 97 && txt_contra.value.charCodeAt(i) <= 122){
+                    minuscula = true;
+                }
+                else if(txt_contra.value.charCodeAt(i) >= 48 && txt_contra.value.charCodeAt(i) <= 57){
+                    numero = true;
+                }
+            }
+            if(!mayuscula || !minuscula || !numero)
+            {
+                e.preventDefault();
+                val_txtconf=false;
+                mensajeError("La contraseña no se considera fuerte. Ingrese una nueva");
+                
+            }
+            if(val_txtconf){
+                if(txt_contra.value!=txt_conf_contra.value){
+                    e.preventDefault();
+                    mensajeError("La contraseña ingresada, no coincide con el campo de verificación");
+                }
+            }
         }
     }
 }

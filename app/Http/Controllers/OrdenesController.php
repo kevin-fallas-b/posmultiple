@@ -25,9 +25,9 @@ class OrdenesController extends Controller
     public function guardarOrden(){
         if(isset($_POST['id_orden'])){//si recibe un id de orden estaría editando una orden
             if(isset($_POST['idsEliminados'])){
-                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_usuario'],$_POST['id_empresa'],$_POST['fecha'],$_POST['productos'],$_POST['idsEliminados']);
+                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_mesa'],$_POST['entregada'],$_POST['pagada'],$_POST['productos'],$_POST['idsEliminados']);
             }else{
-                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_usuario'],$_POST['id_empresa'],$_POST['fecha'],$_POST['productos'],0);
+                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_mesa'],$_POST['entregada'],$_POST['pagada'],$_POST['productos'],0);
             }
         }else{
             if(isset($_POST['id_mesa'])){
@@ -50,6 +50,21 @@ class OrdenesController extends Controller
         return Orden::eliminarOrden($_POST['id_orden']);
     }
 
+    public function cargarNoEntregadas(){
+        return Orden::cargarOrdenesNoEntregadas($_POST['id_empresa']);
+    }
+
+    public function cargarNoPagadas(){
+        return Orden::cargarOrdenesNoPagadas($_POST['id_empresa']);
+    }
+
+    public function cargarProductosXOrden(){
+        return Orden::cargarProductosXOrden($_POST['id']);
+    }
+
+    public function entregarOrden(){
+        return Orden::entregarOrden($_POST['id']);
+    }
     /*public function cargartodosproductos(){
         if(DashboardController::estaLogeado()){
             return view('ordenes/ordenes',['tab'=>'todos']);

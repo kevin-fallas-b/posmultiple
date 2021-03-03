@@ -175,3 +175,7 @@ function validar(){
     }
     return true;
 }
+
+function proveedores(){
+    window.location.href = getbaseurl()+'/administracion/proveedores';
+}

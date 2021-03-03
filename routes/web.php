@@ -162,5 +162,20 @@ Route::post('/getproducto' , [ProductoController::class, 'getProducto']);
 
 Route::post('/ingresarproductos' , [ProductoController::class, 'ingresarProductos']);
 
+Route::get('/administracion/cocina',function(){
+    if (DashboardController::estaLogeado()) {
+        return view('cocina');
+    }
+    
+});
 
+Route::post('/administracion/cargarNoEntregadas',[OrdenesController::class,'cargarNoEntregadas']);
 
+Route::post('/administracion/cargarNoPagadas',[OrdenesController::class,'cargarNoPagadas']);
+
+Route::post('/administracion/cargarProductosXOden',[OrdenesController::class, 'cargarProductosXOrden']);
+
+Route::post('/administracion/entregarOrden',[OrdenesController::class, 'entregarOrden']);
+
+Route::get('/prueba',function(){
+    return view('cambioContrasena');});

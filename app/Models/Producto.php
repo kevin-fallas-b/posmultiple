@@ -72,7 +72,8 @@ class Producto extends Model
                     ->join('tbl_proveedor as proveedor', 'producto.pro_pro', '=', 'proveedor.pro_proId')
                     ->join('tbl_categoriaxproducto as cxp', 'producto.pro_id', '=', 'cxp.cxp_producto')
                     ->join('tbl_categoria as categoria', 'cxp.cxp_categoria', '=', 'categoria.cat_id') 
-                    ->where('producto.pro_emp', $id_empresa)->where('pro_nombre', 'LIKE', $nombre . '%')->get();
+                    ->where('producto.pro_emp', $id_empresa)->where('pro_nombre', 'LIKE', $nombre . '%')
+                    ->where('pro_cantidad','>=',1)->get();
     }
 
     public static function cargarProductosPorCodigo($id_empresa,$codigo){

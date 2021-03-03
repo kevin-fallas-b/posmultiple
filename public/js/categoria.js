@@ -108,3 +108,7 @@ function eliminarCategoria(id){
         })
         
 }
+
+function productos(){
+    window.location.href = getbaseurl()+'/administracion/productos';
+}

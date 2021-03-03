@@ -32,7 +32,11 @@
                     
                     <div class='card-body' id="contenedormesas">
                         <div class='table-responsive'>
-                            <div style='background-color: gray;' id='div_principal'></div>
+                            <!--<div class="row">
+                               <div class="col">-->   
+                                   <div style='background-color: gray;' id='div_principal'></div>
+                                <!--</div>
+                            </div>-->
                        </div>
                     </div>
                     

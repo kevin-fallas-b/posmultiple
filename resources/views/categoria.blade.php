@@ -29,8 +29,9 @@
 
                         <div class="input-group" id="primerfila">
                             <input id="txtbuscar" type="text" class="form-control" placeholder="Buscar Categorias" onkeyup="buscarCategorias(this.value)">
-
-                            <button id="btnnuevo" type="button" class="btn btn-primary ml-2" onclick="agregar()">Agregar</button>
+                            <button id="btnnuevo" type="button" class="btn btn-primary ml-2" onclick="productos()"> Volver
+                            </button>
+                            <button id="btnnuevo" type="button" class="btn btn-success ml-1" onclick="agregar()">Agregar</button>
                         </div>
 
                         <br>

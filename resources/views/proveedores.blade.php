@@ -23,11 +23,10 @@ setactive('linkadministracion')
                         <!-- CADA INPUT GROUP ES UNA FILA-->
 
                         <div class="input-group" id="primerfila">
-                            <input type="button" hidden id="btnmostrarresultados">
                             <input id="txtbuscar" type="text" class="form-control" placeholder="Buscar Proveedor"
                                 onkeyup="buscarProveedor(this.value)">
 
-                            <button id="btnnuevo" type="button" class="btn btn-primary ml-2" onclick="nuevo()"> Nuevo
+                            <button id="btnnuevo" type="button" class="btn btn-success ml-1" onclick="nuevo()"> Nuevo
                             </button>
                         </div>
 

@@ -31,9 +31,6 @@ var ideditando;
 
 var idUsu;
 
-var coordLeft;
-var coordTop;
-
 var height;
 var width;
 
@@ -202,6 +199,8 @@ function mostrarMesas(){
   for(var i=0; i<mesasAux.length; i++){  
     if(mesas[i]['mes_id']==mesasAux[i].id){
       draggable = new PlainDraggable(mesasAux[i]);
+      console.log('i: '+draggable.rect.top+' - '+draggable.rect.left);
+
       self = draggable.setOptions({left: mesas[i]['mes_posicionX'],top: mesas[i]['mes_posicionY']});
       mesasAux[i].addEventListener('touchstart',onClick,false);
       mesasAux[i].addEventListener('click',onClick,false);
@@ -280,7 +279,11 @@ function eliminarMesa(){
                 cancelar();
                 cargarMesas(idUsu);
             }else{
+              if(response.data === 'mesa_con_ordenes'){
+                alertify.error('No se puede eliminar la mesa porque está asociada a una orden.');
+              }else{
                 alertify.error('Ocurrio un error interno al intentar eliminar. Por favor intente mas tarde.');
+              }
             }
         })
         .catch(function(error){
@@ -310,6 +313,27 @@ function obtenerOrdenMesa(){
 }
 
 function actualizarPosMesas(){ 
+  mesasAux2 = document.getElementsByClassName('draggable');
+  
+  for(var i=0; i<mesasAux2.length; i++){  
+    if(mesas[i]['mes_id']==mesasAux2[i].id){
+      draggable = new PlainDraggable(mesasAux2[i]);
+      console.log('i: '+draggable.rect.top+' - '+draggable.rect.left);
+
+      self = draggable.setOptions({left: draggable.rect.left,top: draggable.rect.top});
+      //mesasAux[i].addEventListener('touchstart',onClick,false);
+      //mesasAux[i].addEventListener('click',onClick,false);
+      
+      espaciosOcup[i]=new Array();
+      espaciosOcup[i][0]=draggable.rect.left//mesas[i]['mes_posicionX'];
+      espaciosOcup[i][1]=draggable.rect.top//mesas[i]['mes_posicionY'];
+      espaciosOcup[i][2]=mesas[i]['mes_id'];
+      
+      //onDrag(mesas[i]['mes_id']);
+      //onDragStart();
+      //onDragEnd(mesas[i]['mes_id']);
+    }
+  }
   var form = new FormData();
   var actualizar = false;
   var cont = 0;

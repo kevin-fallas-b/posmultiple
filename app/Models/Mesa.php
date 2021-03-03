@@ -60,9 +60,13 @@ class Mesa extends Model
     }
 
     public static function eliminarMesa($idMesa){
-        $exito = DB::table('tbl_mesa')->where('mes_id',$idMesa)->delete();
-        if($exito){
-            return 'exito';
+        if(DB::table('tbl_mesa as mesa')->join('tbl_orden as orden','mesa.mes_id','=','orden.ord_mesa')->where('mesa.mes_id',$idMesa)->exists()){
+            return 'mesa_con_ordenes';
+        }else{
+            $exito = DB::table('tbl_mesa')->where('mes_id',$idMesa)->delete();
+            if($exito){
+                return 'exito';
+            }
         }
     }
 }
