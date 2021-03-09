@@ -1,0 +1,6 @@
+.campoinvisible {
+    text-align: center;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}

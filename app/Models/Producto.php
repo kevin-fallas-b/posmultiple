@@ -79,4 +79,13 @@ class Producto extends Model
     public static function cargarProductosPorCodigo($id_empresa,$codigo){
         return DB::table('tbl_producto as producto')->join('tbl_proveedor as proveedor', 'producto.pro_pro', '=', 'proveedor.pro_proId')->where('producto.pro_emp', $id_empresa)->where('pro_codigo', 'LIKE', $codigo . '%')->get();
     }
+
+    public static function reporteInventario($id_empresa){
+        return DB::table('tbl_producto as producto')
+                    ->join('tbl_categoriaxproducto as cxp', 'producto.pro_id', '=', 'cxp.cxp_producto')
+                    ->join('tbl_categoria as categoria', 'cxp.cxp_categoria', '=', 'categoria.cat_id')
+                    ->select('categoria.cat_nombre as nombCat','producto.pro_nombre as nombProd','producto.pro_cantidad as cantProd','producto.pro_unidadMedida as unidMedProd','producto.pro_precio as precioProd')
+                    ->where('producto.pro_emp', $id_empresa)
+                    ->get();        
+    }
 }

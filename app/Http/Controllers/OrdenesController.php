@@ -25,15 +25,15 @@ class OrdenesController extends Controller
     public function guardarOrden(){
         if(isset($_POST['id_orden'])){//si recibe un id de orden estaría editando una orden
             if(isset($_POST['idsEliminados'])){
-                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_mesa'],$_POST['entregada'],$_POST['pagada'],$_POST['productos'],$_POST['idsEliminados']);
+                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_mesa'],$_POST['entregada'],$_POST['pagada'],$_POST['productos'],$_POST['idsEliminados'],$_POST['total']);
             }else{
-                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_mesa'],$_POST['entregada'],$_POST['pagada'],$_POST['productos'],0);
+                return Orden::actualizarOrden($_POST['id_orden'],$_POST['id_mesa'],$_POST['entregada'],$_POST['pagada'],$_POST['productos'],0,$_POST['total']);
             }
         }else{
             if(isset($_POST['id_mesa'])){
-                return Orden::guardarOrden($_POST['id_usuario'],$_POST['id_empresa'],$_POST['fecha'],$_POST['id_mesa'],$_POST['productos']);
+                return Orden::guardarOrden($_POST['id_usuario'],$_POST['id_empresa'],$_POST['fecha'],$_POST['id_mesa'],$_POST['productos'],$_POST['total']);
             }else{
-                return Orden::guardarOrden($_POST['id_usuario'],$_POST['id_empresa'],$_POST['fecha'],0,$_POST['productos']);
+                return Orden::guardarOrden($_POST['id_usuario'],$_POST['id_empresa'],$_POST['fecha'],0,$_POST['productos'],$_POST['total']);
             }
         }
     }

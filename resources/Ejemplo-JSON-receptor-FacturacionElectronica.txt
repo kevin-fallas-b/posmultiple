@@ -1,9 +1,9 @@
 ﻿{
-  "nombre": "Juan Martinez",
+  "nombre": "Kevin Fallas Bonilla",
   "tipoCedula": 01,
-  "cedula": 101130412,
+  "cedula": 604370412,
   "direccion": 11902,
   "otrasSenas": "Daniel flores",
-  "telefono": 84215692,
+  "telefono": 85844178,
   "correo": "kevin.fallas.b@gmail.com"
 }

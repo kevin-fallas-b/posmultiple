@@ -1,0 +1,99 @@
+.logoheader {
+    position: absolute;
+    height: 128px;
+    width: 140px;
+    top: -10px;
+    right: 0px;
+}
+
+.page-break {
+    page-break-after: always;
+}
+
+.header {
+    position: relative;
+    text-align: center;
+    height: 200px;
+}
+
+#fechas {
+    position: relative;
+    left: 0px;
+    top: 60px;
+    text-align: left;
+}
+
+.lineadivision {
+    width: 100%;
+    height: 3px;
+    background-color: black;
+}
+
+#titulo {
+    font-size: 24px;
+}
+
+.cajonresumen {
+    position: relative;
+    width: 200px;
+    height: 50px;
+    border-radius: 8px;
+    text-align: center;
+    color: white;
+}
+
+.ordenestotales {
+    background-color: #007bff;
+}
+
+.mayorventa {
+    background-color: #28a745;
+    left: 250px;
+    top: -50px;
+}
+
+.promediopordia {
+    background-color: #dc3545;
+    left: 500px;
+    top: -100px;
+}
+
+#contenedor2 {
+    text-align: center;
+}
+
+#resumenescrito {
+    position: relative;
+    top: -80px;
+    line-height: 1.5;
+    text-align: left;
+}
+
+td {
+    text-align: center;
+}
+
+th, td {
+    padding: 5px;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #dddddd;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+label{
+	color:#323232;
+}
+
+.date{
+	border-radius: 7px;
+	padding: 5px;
+	border: 1px solid #00B4BE;
+	margin: 10px 30px 10px 2px;
+	border: 1px solid #00B4BE;
+	background-color: #72DBBB;
+}

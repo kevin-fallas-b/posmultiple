@@ -1,6 +1,9 @@
 @extends('dashboard/dashboard')
 
 @section('content')
+<script>
+    setactive('linkordenes');
+</script>
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 
@@ -37,26 +40,6 @@
             <label for="txtdetalle" style="position: absolute;top:-22px;">Detalle</label>
             <input type="text" class="form-control rounded" placeholder="Detalle" autocomplete="off" id="txtdetalle">
         </div>
-
-
-        <div class="input-group mt-3 ">
-            <div class='table-responsive'>
-                <table class="table  table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Acompañamientos</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id='tbody_acompanamientos'>                     
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-
-
-
       </div>
 
       <div class="modal-footer">

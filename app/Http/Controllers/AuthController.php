@@ -39,10 +39,8 @@ class AuthController extends Controller
         //return Auth::registrar($_POST['nombre'],$_POST['apellidos'],$_POST['correo'],$_POST['contra'],$_POST['telefono'],$_POST['provincia'],$_POST['canton'],$_POST['distrito']);
     }
 
-    public function recuperarContra(Request $request){
+    public function recuperarContra(){
         
-       // $this->validatorCorreo($request->all())->validate();
-
         if(Auth::recuperarContra($_POST['correo'])==0){
             $_POST['mensaje']='No existe cuenta asociada al correo ingresado.';
             return view('recuperarContrasena');
@@ -52,7 +50,7 @@ class AuthController extends Controller
         //return redirect()->back();
     }
 
-    public function cambiarContra(Request $request){
+    public function cambiarContra(){
         if (session_status() == PHP_SESSION_NONE) {
             session_start();
         }
@@ -71,26 +69,4 @@ class AuthController extends Controller
         }
         return redirect()->back();
     }
-
-
-    /*public function validatorCorreo(array $request)
-    {
-        return Validator::make($request, [
-            'correo' => ['required', 'string', 'email'],
-        ]);
-    }*/
-
-    /*public function validatorContra(array $request)
-    {
-        return Validator::make($request, [
-            'contraseña' => ['required', 'string','max:50'],
-        ]);
-    }  */  
-
-    /*public function validator(array $request)
-    {
-        return Validator::make($request, [
-            'usu_correo' => ['required', 'string', 'email'],
-        ]);
-    }*/
 }

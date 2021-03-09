@@ -15,7 +15,7 @@
 
 
         <li class="nav-item">
-          <a href="{{ url('/administracion/ordenes') }}" class="nav-link" id="linkordenes">
+          <a href="{{ url('/ordenes') }}" class="nav-link" id="linkordenes">
             <i class="nav-icon far fa-edit"></i>
             <p>
               Ordenes
@@ -24,7 +24,7 @@
         </li>
 
         <li class="nav-item">
-          <a href="{{ url('/dashboard/actualizar') }}" class="nav-link" id="linkactualizar">
+          <a href="{{ url('/dashboard/facturacion') }}" class="nav-link" id="linkfacturacion">
             <i class="nav-icon fas fa-cash-register"></i>
             <p>
               Facturacion

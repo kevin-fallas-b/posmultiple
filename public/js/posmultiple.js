@@ -1,5 +1,5 @@
 //contiene funciones que se usan en distintas aprtes del proyecto
-window.addEventListener('load',inicial,false)
+window.addEventListener('load', inicial, false)
 var activo;//saber en que pantalla estoy
 
 
@@ -11,6 +11,9 @@ function inicial() {
 function isNumber(evt) {
     evt = (evt) ? evt : window.event;
     var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode == 46) {
+        return true;
+    }
     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         return false;
     }
@@ -48,4 +51,19 @@ function stringvalido(revisar, tamanomax) {
 function setactive(id) {
     activo = id;
     document.getElementById(id).classList.add('active')
+}
+function isNumeric(str) {
+    if (typeof str != "string") return false // we only process strings!  
+    return !isNaN(str) && // use type coercion to parse the _entirety_ of the string (`parseFloat` alone does not do this)...
+        !isNaN(parseFloat(str)) // ...and ensure strings of whitespace fail
+}
+
+function getCookies() {
+    return document.cookie
+        .split(';')
+        .map(cookie => cookie.split('='))
+        .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
+}
+function getTokenFacturacion() {
+    document.cookie = "tokenFacturacion=" + document.getElementById('tokenFact').innerHTML;
 }

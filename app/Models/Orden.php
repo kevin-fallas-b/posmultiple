@@ -19,12 +19,12 @@ class Orden extends Model
         return DB::table('tbl_producto as producto')->join('tbl_proveedor as proveedor', 'producto.pro_pro', '=', 'proveedor.pro_proId')->where('producto.pro_emp', $emp)->where('pro_codigo', $codigobarras)->get();
     }
 
-    public static function guardarOrden($idUsu,$idEmp,$fecha,$idMesa,$productos){
+    public static function guardarOrden($idUsu,$idEmp,$fecha,$idMesa,$productos,$total){
         $fecha_convertida = new DateTime($fecha);
         if($idMesa > 0){
-            $idOrden = DB::table('tbl_orden')->insertGetId(['ord_usu'=>$idUsu,'ord_hora'=>$fecha_convertida,'ord_emp'=>$idEmp,'ord_mesa'=>$idMesa,'ord_estado'=>'N','ord_pagado'=>'N']);
+            $idOrden = DB::table('tbl_orden')->insertGetId(['ord_usu'=>$idUsu,'ord_hora'=>$fecha_convertida,'ord_emp'=>$idEmp,'ord_mesa'=>$idMesa,'ord_estado'=>'N','ord_pagado'=>'N','ord_total'=>$total]);
         }else{
-            $idOrden = DB::table('tbl_orden')->insertGetId(['ord_usu'=>$idUsu,'ord_hora'=>$fecha_convertida,'ord_emp'=>$idEmp,'ord_estado'=>'N','ord_pagado'=>'N']);
+            $idOrden = DB::table('tbl_orden')->insertGetId(['ord_usu'=>$idUsu,'ord_hora'=>$fecha_convertida,'ord_emp'=>$idEmp,'ord_estado'=>'N','ord_pagado'=>'N','ord_total'=>$total]);
         }
         if (is_numeric($idOrden)) {   
 		    for($i=0; $i<sizeof($productos); $i++){
@@ -49,7 +49,7 @@ class Orden extends Model
         return 'error';
     }
 
-    public static function actualizarOrden($ord_id,$mesa_id,$entregada,$pagada,$productos,$idsElim){
+    public static function actualizarOrden($ord_id,$mesa_id,$entregada,$pagada,$productos,$idsElim,$total){
         if($mesa_id>0){//agregar o cambiar la mesa de una orden
             //consultamos si el id de la mesa que recibimos está relacionado a una orden
             if(DB::table('tbl_orden as orden')->join('tbl_mesa as mesa','orden.ord_mesa','=','mesa.mes_id')
@@ -57,11 +57,11 @@ class Orden extends Model
             //Filtramos que la orden asociada a la mesa sea diferente a la orden actual de la mesa
                 return 'mesa_con_ordenes';
             }else{//Si la mesa no tiene orden asociada, la asocia con la orden
-                DB::table('tbl_orden')->where('ord_id',$ord_id)->update(['ord_mesa'=>$mesa_id,'ord_estado' => $entregada, 'ord_pagado' => $pagada]);//DB::table('tbl_orden')->where('ord_id',$ord_id)->update(['ord_mesa'=>$mesa_id,'ord_estado' => $entregada, 'ord_pagado' => $pagada]);
+                DB::table('tbl_orden')->where('ord_id',$ord_id)->update(['ord_mesa'=>$mesa_id,'ord_estado' => $entregada, 'ord_pagado' => $pagada,'ord_total'=>$total]);//DB::table('tbl_orden')->where('ord_id',$ord_id)->update(['ord_mesa'=>$mesa_id,'ord_estado' => $entregada, 'ord_pagado' => $pagada]);
             }
             //return 'mesa_con_ordenes'
         }else{
-            DB::table('tbl_orden')->where('ord_id',$ord_id)->update(['ord_mesa'=>null,'ord_estado' => $entregada, 'ord_pagado' => $pagada]);
+            DB::table('tbl_orden')->where('ord_id',$ord_id)->update(['ord_mesa'=>null,'ord_estado' => $entregada, 'ord_pagado' => $pagada,'ord_total'=>$total]);
         }    
         $exito = DB::table('tbl_orden')->where('ord_id',$ord_id)->get();
         if($exito){
@@ -157,5 +157,24 @@ class Orden extends Model
         if($exito){
             return 'exito';   
         }
+    }
+
+    public static function cantidadOrdenes($idEmp,$fchIni,$fchFin){
+        return DB::table('tbl_empresa as empresa')->join('tbl_orden as orden', 'empresa.emp_id', '=', 'orden.ord_emp')
+                                                  ->where('empresa.emp_id', $idEmp)
+                                                  ->where('orden.ord_hora','>=',$fchIni)
+                                                  ->where('orden.ord_hora','<=',$fchFin)->count(); 
+
+    }
+
+    public static function mayorVenta($idEmp,$fchIni,$fchFin){
+        
+        return DB::table('tbl_empresa as empresa')->join('tbl_orden as orden', 'empresa.emp_id', '=', 'orden.ord_emp')
+                                                   ->selectRaw("DATE_FORMAT(orden.ord_hora,'%d-%m-%Y') as fecha, SUM(orden.ord_total) as total")//meter un total en orden?
+                                                  ->where('empresa.emp_id', $idEmp)
+                                                  ->where('orden.ord_hora','>=',$fchIni)
+                                                   ->where('orden.ord_hora','<=',$fchFin)
+                                                   ->groupBy('fecha')
+                                                  ->get();
     }
 }

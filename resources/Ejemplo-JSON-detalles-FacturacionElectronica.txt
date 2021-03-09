@@ -1,34 +1,32 @@
-﻿{
-  "Detalles": [
-    {
-      "descripcion": "nombre articulo",
-      "unidadMedida": "Unid",
-      "precioUnidad": 650,
-      "cantidad": 1,
-      "descuento": 0,
-      "detalleDescuento": "",
-      "tarifaImpuestos": 13,
-      "codigoCabys": 111111
-    },
-    {
-      "descripcion": "nombre articulo2",
-      "unidadMedida": "kg",
-      "precioUnidad": 1250,
-      "cantidad": 1.15,
-      "descuento": 0,
-      "detalleDescuento": "",
-      "tarifaImpuestos": 13,
-      "codigoCabys": 111111
-    },
-    {
-      "descripcion": "nombre articulo3",
-      "unidadMedida": "Sp",
-      "precioUnidad": 15000,
-      "cantidad": 1,
-      "descuento": 0,
-      "detalleDescuento": "",
-      "tarifaImpuestos": 13,
-      "codigoCabys": 111111
-    }
-  ]
-}
+﻿[
+  {
+    "descripcion": "Manguera truper 1/2 25mts",
+    "unidadMedida": "Unid",
+    "precioUnidad": 6500,
+    "cantidad": 1,
+    "descuento": 0,
+    "detalleDescuento": "",
+    "tarifaImpuestos": 13,
+    "codigoCabys": 3632098999900
+  },
+  {
+    "descripcion": "Queso para freir ",
+    "unidadMedida": "kg",
+    "precioUnidad": 1250,
+    "cantidad": 1.6,
+    "descuento": 0,
+    "detalleDescuento": "",
+    "tarifaImpuestos": 1,
+    "codigoCabys": 2225101010200
+  },
+  {
+    "descripcion": "Servicio de transporte",
+    "unidadMedida": "Sp",
+    "precioUnidad": 2000,
+    "cantidad": 1,
+    "descuento": 0,
+    "detalleDescuento": "",
+    "tarifaImpuestos": 13,
+    "codigoCabys": 6411500000000
+  }
+]

@@ -78,7 +78,7 @@ function cancelar(){
 function entregar(id){
     var form = new FormData();
     form.append('id',id);
-    axios.post('/administracion/entregarOrden',form)
+    axios.post('entregarOrden',form)
         .then(function(response){
             if(response.data = 'exito'){
                 llenarBody();

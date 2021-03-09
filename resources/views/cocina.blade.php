@@ -3,7 +3,7 @@
 @section('content')
 <script>
     //setactive('linkusuarios')
-    setactive('linkadministracion')
+    //setactive('linkadministracion')
 </script>
 <link rel="stylesheet" href="{{ url('/css/estilo.css') }}">
 <script src="{{url('/js/cocina.js')}}"></script>

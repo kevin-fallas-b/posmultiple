@@ -24,6 +24,8 @@ class Auth extends Model
             //usuario autenticado
             session_start();
             $_SESSION['user'] = $user;
+            /* Obtener token para el API de facturacion */
+            $_SESSION['user']->token = self::getToken($user->emp_usuarioAPI, $user->emp_claveAPI);
             return true;
         } else {
             return false;
@@ -51,28 +53,28 @@ class Auth extends Model
     //usado para crear el usuario admin cuando la BD esta vacia
     public static function crearprimero()
     {
-        $funciono = DB::table('tbl_usuario')->insert(['usu_nombre' => 'admin', 'usu_cedula' => '1', 'usu_tipo' => '1', 'usu_contra' => Hash::make('admin'), 'usu_correo' => 'admin', 'usu_emp' => 1,'usu_cedula'=>'1','usu_usuario'=>'admin']);
+        $funciono = DB::table('tbl_usuario')->insert(['usu_nombre' => 'admin', 'usu_cedula' => '1', 'usu_tipo' => '1', 'usu_contra' => Hash::make('admin'), 'usu_correo' => 'admin', 'usu_emp' => 1, 'usu_cedula' => '1', 'usu_usuario' => 'admin']);
         if ($funciono) {
             return 'exito';
         }
     }
 
-    
+
 
     public static function recuperarContra($correo)
     {
         if (DB::table('tbl_usuario')->where('usu_correo', $correo)->exists()) {
             //enviar correo aqui
             $contra =  self::generarPass();
-            DB::table('tbl_usuario')->where('usu_correo', $correo)->update(['usu_contra' => Hash::make($contra),'usu_cambioContra'=>1]);
+            DB::table('tbl_usuario')->where('usu_correo', $correo)->update(['usu_contra' => Hash::make($contra), 'usu_cambioContra' => 1]);
 
             $user = DB::table('tbl_usuario')->where('usu_correo', $correo)->first();
             //la variable $contra contiene la contraseña sin encriptar, se la enviamos al usuario en texto plano
             Mail::to($correo)->send(new RecuperarContra($user, $contra));
 
-            return 1;//'exito';
+            return 1; //'exito';
         } else {
-            return 0;//'No existe cuenta asociada al correo ingresado.';
+            return 0; //'No existe cuenta asociada al correo ingresado.';
         }
     }
 
@@ -98,19 +100,41 @@ class Auth extends Model
         }
     }
 
-    public static function ejecCambioContra($contra,$usuario){
+    public static function ejecCambioContra($contra, $usuario)
+    {
         if (DB::table('tbl_usuario')->where('usu_usuario', $usuario)->exists()) {
             //enviar correo aqui
-            DB::table('tbl_usuario')->where('usu_usuario', $usuario)->update(['usu_contra' => Hash::make($contra),'usu_cambioContra'=>0]);
-            
+            DB::table('tbl_usuario')->where('usu_usuario', $usuario)->update(['usu_contra' => Hash::make($contra), 'usu_cambioContra' => 0]);
+
             //$user = DB::table('tbl_usuario as usuario')->join('tbl_empresa as empresa', 'usuario.usu_emp', '=', 'empresa.emp_id')->where('usu_usuario', $usuario)->first();
             if (session_status() == PHP_SESSION_NONE) {
                 session_start();
             }
-            $_SESSION['user']->usu_cambioContra=0;
-            return true;//'exito';
+            $_SESSION['user']->usu_cambioContra = 0;
+            return true; //'exito';
         } else {
-            return false;//'No existe cuenta asociada al correo ingresado.';
-        } 
+            return false; //'No existe cuenta asociada al correo ingresado.';
+        }
+    }
+
+    public static function getToken($user, $pass)
+    {
+        $url = 'http://201.200.147.114:8989/login';
+        $data = array('user' => $user, 'password' => $pass);
+
+        // use key 'http' even if you send the request to https://...
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded",
+                'method'  => 'POST',
+                'content' => http_build_query($data)
+            )
+        );
+        $context  = stream_context_create($options);
+        $result = file_get_contents($url, false, $context);
+        if ($result === FALSE) { /* Handle error */
+        }
+        $respuesta = json_decode($result, true);
+        return $respuesta['resultado']['data'];
     }
 }

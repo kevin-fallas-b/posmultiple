@@ -10,7 +10,10 @@ use App\Http\Controllers\RepresentanteController;
 use App\Http\Controllers\DireccionController;
 use App\Http\Controllers\EmpresasController;
 use App\Http\Controllers\MesasController;
+use App\Http\Controllers\OpcionController;
 use App\Http\Controllers\OrdenesController;
+use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\FacturacionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -58,24 +61,30 @@ Route::post('/administracion/proveedores', [ProveedorController::class, 'guardar
 
 Route::post('/administracion/borrarProveedores', [ProveedorController::class, 'borrarProveedor']);
 
-Route::post('/administracion/buscarProveedores' , [ProveedorController::class, 'buscarProveedor']);
+Route::post('/administracion/buscarProveedores', [ProveedorController::class, 'buscarProveedor']);
 
 
 Route::get('/administracion/productos', [ProductoController::class, 'index']);
 
 Route::post('/administracion/productos', [ProductoController::class, 'guardarProducto']);
 
-Route::post('/administracion/buscarProductos' , [ProductoController::class, 'buscarProductos']);
+Route::post('/administracion/buscarProductos', [ProductoController::class, 'buscarProductos']);
 
+
+Route::post('/administracion/opciones', [OpcionController::class, 'guardarOpcion']);
+
+Route::post('/administracion/buscarOpciones', [OpcionController::class, 'fetch']);
+
+Route::post('/administracion/borrarOpciones', [OpcionController::class, 'eliminar']);
 
 
 Route::get('/administracion/representantes', [RepresentanteController::class, 'index']);
 
 Route::post('/administracion/representantes', [RepresentanteController::class, 'guardarRepresentante']);
 
-Route::post('/administracion/buscarRepresentantes' , [RepresentanteController::class, 'buscarRepresentantes']);
+Route::post('/administracion/buscarRepresentantes', [RepresentanteController::class, 'buscarRepresentantes']);
 
-Route::post('/administracion/borrarRepresentantes' , [RepresentanteController::class, 'borrarRepresentate']);
+Route::post('/administracion/borrarRepresentantes', [RepresentanteController::class, 'borrarRepresentate']);
 
 
 
@@ -85,33 +94,33 @@ Route::get('/administracion/categoria', [CategoriaController::class, 'indexCateg
 
 Route::post('/administracion/categorias', [CategoriaController::class, 'guardarCategoria']);
 
-Route::post('/administracion/buscarCategorias' , [CategoriaController::class, 'buscarCategoria']);
+Route::post('/administracion/buscarCategorias', [CategoriaController::class, 'buscarCategoria']);
 
-Route::post('/administracion/borrarCategorias' , [CategoriaController::class, 'borrarCategoria']);
+Route::post('/administracion/borrarCategorias', [CategoriaController::class, 'borrarCategoria']);
 
-Route::post('/administracion/crearRelacionCategorias' , [CategoriaController::class, 'crearRelacion']);
+Route::post('/administracion/crearRelacionCategorias', [CategoriaController::class, 'crearRelacion']);
 
-Route::post('/administracion/borrarRelacionCategorias' , [CategoriaController::class, 'borrarRelacion']);
+Route::post('/administracion/borrarRelacionCategorias', [CategoriaController::class, 'borrarRelacion']);
 
-Route::post('/administracion/buscarRelacionCategorias' , [CategoriaController::class, 'buscarRelacion']);
+Route::post('/administracion/buscarRelacionCategorias', [CategoriaController::class, 'buscarRelacion']);
 
-Route::post('/administracion/cargarCategoriasEmpresa' , [CategoriaController::class, 'cargarCategoriasEmpresa']);
+Route::post('/cargarCategoriasEmpresa', [CategoriaController::class, 'cargarCategoriasEmpresa']);
 
-Route::post('administracion/direcciones' , [DireccionController::class, 'guardarDireccion']);
+Route::post('administracion/direcciones', [DireccionController::class, 'guardarDireccion']);
 
-Route::post('administracion/borrardirecciones' , [DireccionController::class, 'borrarDireccion']);
+Route::post('administracion/borrardirecciones', [DireccionController::class, 'borrarDireccion']);
 
 Route::get('/recuperarpass', function () {
     return view('recuperarContrasena');
 });
 
-Route::post('/recuperarcont', [AuthController::class,'recuperarContra'])->name('recuperarcont');
+Route::post('/recuperarcont', [AuthController::class, 'recuperarContra'])->name('recuperarcont');
 
-Route::get('/cambioContra',function(){
+Route::get('/cambioContra', function () {
     return view('cambioContrasena');
 })->name('cambioContra');
 
-Route::post('/cambiarContra',[AuthController::class,'cambiarContra'])->name('cambiarContra');
+Route::post('/cambiarContra', [AuthController::class, 'cambiarContra'])->name('cambiarContra');
 
 Route::get('/administracion/empresas', [EmpresasController::class, 'index']);
 
@@ -125,57 +134,71 @@ Route::post('/administracion/getempresas', [EmpresasController::class, 'getEmpre
     return view('mesas');
 });*/
 
-Route::get('/administracion/mesas',[MesasController::class, 'index']);
+Route::get('/administracion/mesas', [MesasController::class, 'index']);
 
 Route::post('/administracion/cargarMesas',  [MesasController::class, 'cargarMesas']);
 
+Route::post('/cargarMesas',  [MesasController::class, 'cargarMesas']);
+
 Route::get('/administracion/cargar',  [MesasController::class, 'cargar']);
 
-Route::post('/administracion/guardarNuevaMesa',[MesasController::class, 'guardarMesa']);
+Route::post('/administracion/guardarNuevaMesa', [MesasController::class, 'guardarMesa']);
 
-Route::post('/administracion/actualizarPosMesa',[MesasController::class, 'actualizarPosMesa']);
+Route::post('/administracion/actualizarPosMesa', [MesasController::class, 'actualizarPosMesa']);
 
-Route::post('/administracion/actualizarPosMesas',[MesasController::class, 'actualizarPosMesas']);
+Route::post('/administracion/actualizarPosMesas', [MesasController::class, 'actualizarPosMesas']);
 
 Route::post('/administracion/eliminarMesa', [MesasController::class, 'eliminarMesa']);
 
 
-Route::get('/administracion/ordenes',[OrdenesController::class, 'index']);
+Route::get('/ordenes', [OrdenesController::class, 'index']);
 
-Route::post('/obtenerOrden',[OrdenesController::class,'obtenerOrden']);
+Route::post('/obtenerOrden', [OrdenesController::class, 'obtenerOrden']);
 
-Route::post('/administracion/guardarOrden',[OrdenesController::class,'guardarOrden']);
+Route::post('/guardarOrden', [OrdenesController::class, 'guardarOrden']);
 
-Route::post('/administracion/cargarOrdenes',[OrdenesController::class,'cargarOrdenes']);
+Route::post('/cargarOrdenes', [OrdenesController::class, 'cargarOrdenes']);
 
-Route::post('/administracion/cargarProductosOrden',[OrdenesController::class,'cargarProductosOrden']);
+Route::post('/cargarProductosOrden', [OrdenesController::class, 'cargarProductosOrden']);
 
-Route::post('/administracion/eliminarOrden',[OrdenesController::class,'eliminarOrden']);
-
-
-Route::post('/administracion/cargarProductos',[ProductoController::class,'cargarProductos']);
+Route::post('/eliminarOrden', [OrdenesController::class, 'eliminarOrden']);
 
 
-Route::get('/ingresarmercaderia',[ProductoController::class,'pantIngresarproductos']);
+Route::post('/cargarProductos', [ProductoController::class, 'cargarProductos']);
 
-Route::post('/getproducto' , [ProductoController::class, 'getProducto']);
 
-Route::post('/ingresarproductos' , [ProductoController::class, 'ingresarProductos']);
+Route::get('/ingresarmercaderia', [ProductoController::class, 'pantIngresarproductos']);
 
-Route::get('/administracion/cocina',function(){
+Route::post('/getproducto', [ProductoController::class, 'getProducto']);
+
+Route::post('/ingresarproductos', [ProductoController::class, 'ingresarProductos']);
+
+Route::get('/cocina', function () {
     if (DashboardController::estaLogeado()) {
         return view('cocina');
     }
-    
 });
 
-Route::post('/administracion/cargarNoEntregadas',[OrdenesController::class,'cargarNoEntregadas']);
+Route::post('/cargarNoEntregadas', [OrdenesController::class, 'cargarNoEntregadas']);
 
-Route::post('/administracion/cargarNoPagadas',[OrdenesController::class,'cargarNoPagadas']);
+Route::post('/cargarNoPagadas', [OrdenesController::class, 'cargarNoPagadas']);
 
-Route::post('/administracion/cargarProductosXOden',[OrdenesController::class, 'cargarProductosXOrden']);
+Route::post('/cargarProductosXOden', [OrdenesController::class, 'cargarProductosXOrden']);
 
-Route::post('/administracion/entregarOrden',[OrdenesController::class, 'entregarOrden']);
+Route::post('/entregarOrden', [OrdenesController::class, 'entregarOrden']);
 
-Route::get('/prueba',function(){
-    return view('cambioContrasena');});
+Route::get('/prueba', function () {
+    return view('cambioContrasena');
+});
+
+Route::get('/administracion/reportes',[ReportesController::class,'index']);
+
+Route::post('/administracion/reporteVentas',[ReportesController::class, 'reporteVentas'])->name('reporteVentas');
+
+Route::post('/administracion/reporteInventario',[ReportesController::class,'reporteInventario'])->name('reporteInventario');
+
+Route::get('dashboard/facturacion',[FacturacionController::class,'index']);
+
+Route::post('dashboard/facturacion/buscarproductos',[FacturacionController::class,'buscarProductos']);
+
+Route::post('dashboard/facturacion/buscarclientes',[FacturacionController::class,'buscarClientes']);

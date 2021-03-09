@@ -12,6 +12,8 @@ var txtCantidad;
 var control;
 var txtCodigo;
 var txtCabys;
+var btnOpciones;
+var btnAcompanamientos;
 
 var btnUnidad;
 var btnTarifa;
@@ -34,6 +36,8 @@ var idProducto;
 
 var unidad;
 var tarifa;
+
+var modal;
 
 var txtBuscarC;
 function inicial(){
@@ -58,6 +62,10 @@ function inicial(){
     btnTarifa = document.getElementById('dropdownTarifa');
     txtCodigo = document.getElementById('txtCodigo');
     txtCabys = document.getElementById('txtCabys');
+    btnOpciones = document.getElementById('btnOpciones');
+    btnAcompanamientos = document.getElementById('btnAcompanamientos');
+    modal = document.getElementById('modal');
+    
 
     btnGuardar  = document.getElementById('btnGuardar');
     btnEditar = document.getElementById('btnEditar');
@@ -296,6 +304,8 @@ function habilitar(op){
     txtCabys.disabled = op;
     btnUnidad.disabled = op;
     btnProveedor.disabled = op;
+    btnOpciones.disabled = op;
+    btnAcompanamientos.disabled = op;
 }
 
 function limpiar(){
@@ -440,4 +450,23 @@ function validar(){
 
 function number(n){
     return typeof Number(n)==='number' && !isNaN(n);
+}
+
+function opciones(){
+    var form = new FormData();
+    form.append('producto',idProducto);
+    axios.post('buscarOpciones',form)
+        .then(function(response){
+            modal.innerHTML = '<table class="table" id="tabla" style="text-align: center;"><thead class="thead-dark"><tr><th>Nombre</th><th>Precio</th><th>Acciones</th></tr></thead><tbody></tbody></table>';
+            modal.innerHTML += '<button style= "float:right" type="button" class="btn btn-danger" onClick="cancelarOpciones()">Cancelar</button>';
+            modal.innerHTML += '<button style= "float:right" type="button" class="btn btn-success ml-1" onClick="nuevo()">Nueva opción</button>';
+        })
+        .catch(function(error){
+            alertify.error('Ocurrio un error interno al intentar visualizar las opciones. Por favor intente mas tarde.');
+            console.log(error.response);
+        })
+}
+
+function acompanamientos(){
+
 }

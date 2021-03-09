@@ -2,7 +2,7 @@
 
 @section('content')
 <script>
-    setactive('linkadministracion')
+    setactive('linkinventario')
 </script>
 
 <script src="{{url('/js/productos.js')}}"></script>
@@ -28,7 +28,7 @@
                         <div class="input-group" id="primerfila">
                             <input type="button" hidden id="btnmostrarresultados">
                             <input id="txtbuscar" type="text" class="form-control" placeholder="Buscar nombre" onkeyup="buscarProducto(this.value)">
-                            <input id="txtBuscarC" type="text" class="form-control" placeholder="Buscar código">
+                            <input id="txtBuscarC" type="text" class="form-control ml-2" placeholder="Buscar código">
                             <button class="btn btn-secondary dropdown-toggle ml-5" type="button" id="dropdownBusqueda" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width:145px">
                                 Proveedor
                             </button>
@@ -59,105 +59,117 @@
                             </table>
                         </div>
 
+
+                        <div id="modal" hidden>
+                            <table class="table" id="tablaOpciones" style="text-align: center;">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Precio</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                            <div id="camposOpciones" hidden>
+                                <div class="input-group mt-5">
+                                    <label for="txtNombre" style="position: absolute;top:-22px;">Nombre</label>
+                                    <input type="text" class="form-control rounded" placeholder="Nombre" id="txtNombreOpcion">
+                                    <label for="txtPrecio" style="position: absolute;top:-22px;left:47vw">Precio</label>
+                                    <input type="text" class="form-control rounded" placeholder="Precio" id="txtPrecioOpcion">
+                                </div>
+
+                                <div class="input-group mt-5 ">
+                                    <button type="button" class="btn btn-danger " id="btnCancelar" onclick="cancelar()">Cancelar</button>
+                                    <!-- HAY QUE CAMBIARLE ID A ESTE BOTON Y QUIZAS AL DE CANCELAR TAMBIEN -->
+                                    <button type="button" class="btn btn-success ml-1" id="bbbtnGuardar" onclick="guardar()">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+
                         <div id="contenedorcampos" hidden>
-                            <div class="input-group mt-5">
+                            <div class="input-group">
                                 <label for="txtNombre" style="position: absolute;top:-22px;">Nombre</label>
                                 <input type="text" class="form-control rounded" placeholder="Nombre" id="txtNombre">
-                                <label for="txtPrecio" style="position: absolute;top:-22px;left:47vw">Precio</label>
-                                <input type="text" class="form-control rounded" placeholder="Precio" id="txtPrecio">
+                                <label for="txtDescripcion" style="position: absolute;top:-22px; left:47vw">Descripción</label>
+                                <input type="text" class="form-control rounded ml-5" placeholder="Descripción" id="txtDescripcion">
                             </div>
 
                             <div class="input-group mt-5">
-                                <label for="txtDescripcion" style="position: absolute;top:-22px;">Descripción</label>
-                                <input type="text" class="form-control rounded mr-3" placeholder="Descripción" id="txtDescripcion">
+                                <label for="txtPrecio" style="position: absolute;top:-22px;">Precio de venta (I.V.I)</label>
+                                <input type="text" class="form-control rounded" placeholder="Precio de venta (I.V.I)" id="txtPrecio">
+
+                                <label for="txtCodigo" style="position: absolute;top:-22px;  left:47vw">Código de barras</label>
+                                <input type="text" class="form-control rounded ml-5" placeholder="Código" id="txtCodigo">
+                            </div>
+                            <div class="input-group mt-5">
+                                <label for="txtCabys" style="position: absolute;top:-22px;">Codigo Cabys</label>
+                                <input type="text" class="form-control rounded" placeholder="Codigo Cabys" id="txtCabys">
+                                <label for="txtCantidad" style="position: absolute;top:-22px;left:47vw">Cantidad</label>
+                                <input type="text" class="form-control rounded ml-5" placeholder="Cantidad" id="txtCantidad">
+
                             </div>
 
                             <div class="input-group mt-5">
-                                <label for="txtCantidad" style="position: absolute;top:-22px;">Cantidad</label>
-                                <input type="text" style="max-width:48.5%" class="form-control rounded" placeholder="Cantidad" id="txtCantidad">
-
-                                <label for="" style="position: absolute;top:-22px;left:47vw">Proveedor</label>
-                                 <button class="btn btn-secondary dropdown-toggle ml-5" type="button" id="dropdownProveedor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Proveedor
+                                <label for="" style="position: absolute;top:-22px">Proveedor</label>
+                                <button class="btn btn-secondary dropdown-toggle" style="width: 175px;" type="button" id="dropdownProveedor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Proveedor
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownTipo" style='width:100px' id="dropProveedor"></div>
+                                <div>
+                                    <label for="" style="position: absolute;top:-22px;left:14.6vw">Unidad de Medida</label>
+                                    <button class="btn btn-secondary dropdown-toggle ml-5" type="button" style="width: 175px;"  id="dropdownUnidad" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Unidad de Medida
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownUnidad" style='width:100px'>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('Sp')">Serv. Profesionales</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('Unid')">Unidad</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('Kg')">Kilogramo</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('L')">Litro</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('cm')">Centimetro</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('ln')">Pulgada</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('Oz')">Onza</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('g')">Gramo</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('mm')">Milimetro</button>
+                                        <button class="dropdown-item" type="button" onclick="unidadMedida('mL')">Mililitro</button>
+                                    </div>
+                                </div>
 
-                                <label for="" style="position: absolute;top:-22px;left:56.5vw">Control de Inventario</label>
-                                <input type="checkbox" id='checkactivo' class="ml-5" data-width="100" checked data-toggle="toggle" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger">
-                            </div>
-
-                            <div class="input-group mt-5">
-                                <label for="txtCodigo" style="position: absolute;top:-22px;">Código</label>
-                                <input type="text" class="form-control rounded" style="max-width:48.5%" placeholder="Código" id="txtCodigo">
-                                <label for="" style="position: absolute;top:-22px;left:47vw">Unidad de Medida</label>
-                                <button class="btn btn-secondary dropdown-toggle ml-5" type="button"
-                                    id="dropdownUnidad" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Unidad de Medida
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownUnidad" style='width:100px'>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('Sp')">Servicios Profesionales</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('Unid')">Unidad</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('Kg')">Kilogramo</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('L')">Litro</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('cm')">Centimetro</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('ln')">Pulgada</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('Oz')">Onza</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('g')">Gramo</button> 
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('mm')">Milimetro</button> 
-                                    <button class="dropdown-item" type="button"
-                                        onclick="unidadMedida('mL')">Mililitro</button> 
+                                <div>
+                                    <label for="" style="position: absolute;top:-22px;left:29.2vw">Tarifa de impuesto</label>
+                                    <button class="btn btn-secondary dropdown-toggle ml-5" type="button" id="dropdownTarifa" style="width: 175px;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Tarifa de Impuesto
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownUnidad" style='width:100px'>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('01')">Tarifa 0% (Exento)</button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('02')">Tarifa reducida 1%</button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('03')">Tarifa reducida 2%</button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('04')">Tarifa reducida 4% </button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('05')">Transitorio 0%,</button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('06')">Transitorio 4% </button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('07')">Transitorio 8%</button>
+                                        <button class="dropdown-item" type="button" onclick="tarifaImpuesto('08')">Tarifa general 13%</button>
+                                    </div>
+                                </div>
+                                <div class="ml-5">
+                                    <label for="" style="position: absolute;top:-22px;left:43.7w">Control de Inventario</label>
+                                    <input type="checkbox" id='checkactivo' class="ml-5" data-width="100" checked data-toggle="toggle" data-on="Activo" data-off="Inactivo" data-onstyle="success" data-offstyle="danger">
                                 </div>
                             </div>
 
-                            <div class="input-group mt-5">
-                                <label for="txtCabys" style="position: absolute;top:-22px;">Cabys</label>
-                                <input type="text" class="form-control rounded" style="max-width:48.5%" placeholder="Cabys" id="txtCabys">
-                                <label for="" style="position: absolute;top:-22px;left:47vw">Unidad de Medida</label>
-                                <button class="btn btn-secondary dropdown-toggle ml-5" type="button"
-                                    id="dropdownTarifa" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
-                                    Tarifa de Impuesto
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownUnidad" style='width:100px'>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('01')">Tarifa 0% (Exento)</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('02')">Tarifa reducida 1%</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('03')">Tarifa reducida 2%</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('04')">Tarifa reducida 4% </button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('05')">Transitorio 0%,</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('06')">Transitorio 4% </button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('07')">Transitorio 8%</button>
-                                    <button class="dropdown-item" type="button"
-                                        onclick="tarifaImpuesto('08')">Tarifa general 13%</button> 
-                                </div>
+
+
+                            <div style="margin: auto;width: 40%;" class="input-group mt-5">
+                                <button id="btnOpciones" style="display: inline;" type="button" class="btn btn-success ml-1" onclick="opciones()">Opciones del producto</button>
+                                <button id="btnAcompanamientos" style="display: inline;" type="button" class="btn btn-success ml-1" onclick="acompanamientos()">Acompañamientos del producto</button>
                             </div>
-                                
-                                
-                            <!-- /input-group -->
 
                             <div class="input-group mt-5 ">
-                                <button type="button" class="btn btn-danger " id="btnCancelar"
-                                    onclick="cancelar()">Cancelar</button>
-                                <button type="button" class="btn btn-success ml-1" id="btnGuardar"
-                                    onclick="guardar()">Guardar</button>
-                                <button type="button" class="btn btn-primary ml-2" id="btnEditar"
-                                    onclick="editarProducto()">Editar</button>
+                                <button type="button" class="btn btn-danger " id="btnCancelar" onclick="cancelar()">Cancelar</button>
+                                <button type="button" class="btn btn-success ml-1" id="btnGuardar" onclick="guardar()">Guardar</button>
+                                <button type="button" class="btn btn-primary ml-2" id="btnEditar" onclick="editarProducto()">Editar</button>
                             </div>
                         </div>
                     </div>

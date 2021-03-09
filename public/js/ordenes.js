@@ -1,4 +1,4 @@
-window.addEventListener('load',inicial,false)
+window.addEventListener('load',inicial,false);
 
 var contenedormesas, contenedororden, contenedorordenes;
 var div_total;
@@ -62,7 +62,7 @@ var contIds;
 var clickMesa;
 
 function cocina(){
-   window.location.href = getbaseurl()+'/administracion/cocina';
+   window.location.href = getbaseurl()+'/cocina';
 }
 
 function inicial() {    
@@ -304,6 +304,7 @@ function guardarOrden(){
     form.append('productos['+cont+'][3]',tabla.rows[i].cells[5].innerHTML);//id de productoxorden
     cont++;
   }
+  form.append('total',div_total.innerHTML);
   if(idsPxOEliminados.length>0){
     var cont2 = 0;
     for(var k=0; k<idsPxOEliminados.length; k++){
@@ -577,6 +578,8 @@ function mostrarOrden(idOrden,edt,clkMesa,mostBtns){
                             +'<td hidden>'+prodxorden[i]['pxo_id']+'</td>'
                             +'<td>'+btnElim+'</td>'
                          +'</tr>';
+
+      //div_total.innerHTML = ordenActual[0]['ord_total'];
       sumarTotal(total);
     }   
   }  
@@ -586,23 +589,23 @@ function selElemento(valueToSelect) {
   sel_mesa.value = valueToSelect;
 }
 
-function agregarProductoOrden(){
+function agregarProductoOrden(){//se ejecuta cuando se da click a un producto
   prod_id = this.id;
   txtCantProd.value='';
   txtDetProd.value='';
   producto = productos.filter(function(pro){
     return pro['pro_id'] == prod_id; 
   });
-  mostrarAcomp();
   if(producto.length>0){
     lbl_nombreProducto.innerHTML = producto[0]['pro_nombre'];
     txt_disponibles.innerHTML='';
     txt_disponibles.innerHTML= 'Disponibles: '+producto[0]['pro_cantidad'];
     txtCantProd.focus();
+    mostrarInfoProductoXOrden(producto[0]['pro_id']);
   }
 }
 
-function agregarInfoProducto(){
+function agregarInfoProducto(){//se invoca cuando le da ok a la ventana modal
   if(txtCantProd.value != null && txtCantProd.value != '' && txtCantProd.value != '0'){
       cant = txtCantProd.value;
       if(producto.length>0){
@@ -645,23 +648,31 @@ function agregarInfoProducto(){
   }
 }
 
+function mostrarInfoProductoXOrden(prod_id){
+  for(var i=0; i < tabla.rows.length; i++){
+    if(prod_id == tabla.rows[i].cells[0].innerHTML){ 
+      txtCantProd.value=tabla.rows[i].cells[1].innerHTML;
+      txtDetProd.value=tabla.rows[i].cells[3].innerHTML;
+      return true;
+    }
+  }
+  return false;
+}
+
 function valExistenciaProdTabla(prod_id,pro_precio,pro_nombre,det,cant){
   for(var i=0; i < tabla.rows.length; i++){
     if(prod_id == tabla.rows[i].cells[0].innerHTML){ 
-
-      var nueva_cantidad = parseInt(tabla.rows[i].cells[1].innerHTML)+parseInt(cant);
-      console.log('nueva cantidad: '+nueva_cantidad);
-      var total = nueva_cantidad * pro_precio;
+      var total = cant * pro_precio;
       restarTotal(parseInt(tabla.rows[i].cells[4].innerHTML));
-      tabla.rows[i].cells[1].innerHTML =  nueva_cantidad;
+      tabla.rows[i].cells[1].innerHTML =  cant;
       tabla.rows[i].cells[2].innerHTML = '<td>'
                                             +'<div class="col1_orden">'
-                                                +pro_nombre+' x '+nueva_cantidad
+                                                +pro_nombre+' x '+cant
                                                 +'<label class="precio"> '
                                                     +pro_precio
                                                 +'</label>'
                                           +'</div>'
-      tabla.rows[i].cells[3].innerHTML = tabla.rows[i].cells[3].innerHTML+' - '+det;                                  
+      tabla.rows[i].cells[3].innerHTML = det;                                  
       tabla.rows[i].cells[4].innerHTML = total;
       sumarTotal(total); 
       
@@ -783,10 +794,10 @@ function visualizarOrden(idOrden){
 }
 
 function mostrarAcomp(){
-  tbody_acompanamientos.innerHTML = '';
+  //tbody_acompanamientos.innerHTML = '';
  //productos.forEach(producto => {
-    tbody_acompanamientos.innerHTML += '<tr><td><input type="checkbox" class="ml-5" checked></td><td>Producto 1</td></tr>';
-    tbody_acompanamientos.innerHTML += '<tr><td><input type="checkbox" class="ml-5" checked></td><td>Producto 2</td></tr>';
+    //tbody_acompanamientos.innerHTML += '<tr><td><input type="checkbox" class="ml-5" checked></td><td>Producto 1</td></tr>';
+    //tbody_acompanamientos.innerHTML += '<tr><td><input type="checkbox" class="ml-5" checked></td><td>Producto 2</td></tr>';
     /*if(producto['pro_controlInventario'] == 's'){
         tabla.innerHTML += '<tr><td>'+producto['pro_nombre']+'</td><td>'+producto['pro_proNombre']+'</td><td>'+producto['pro_precio']+'</td><td><input type="checkbox" class="ml-5" disabled checked></td><td>'+producto['pro_cantidad']+'</td><td>'+verUnidad(producto['pro_unidadMedida'])+'<td><button type="button" class="btn btn-primary ml-2" onClick="visualizar('+producto['pro_id']+')">Visualizar</button></td><td><button type="button" class="btn btn-primary ml-2" onClick="categorias('+producto['pro_id']+')">Categorias</button></td></tr>';
     }else{
