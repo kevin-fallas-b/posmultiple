@@ -119,7 +119,7 @@ class Auth extends Model
 
     public static function getToken($user, $pass)
     {
-        $url = 'http://201.200.147.114:8989/login';
+        $url = 'http://201.191.144.55:8989/login';
         $data = array('user' => $user, 'password' => $pass);
 
         // use key 'http' even if you send the request to https://...
@@ -136,5 +136,6 @@ class Auth extends Model
         }
         $respuesta = json_decode($result, true);
         return $respuesta['resultado']['data'];
+        //return 'resultado';
     }
 }

@@ -7,14 +7,6 @@
 <link rel="stylesheet" href="{{ url('/css/facturacion.css') }}">
 <input type="text" id="idusuario" hidden value="{{$_SESSION['user']->usu_id}}">
 <input type="text" id="idempresa" hidden value="{{$_SESSION['user']->usu_emp}}">
-<meta name="csrf-token" content="{{ csrf_token() }}" />
-<script type="text/javascript">
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-</script>
 
 <div>
 

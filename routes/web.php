@@ -199,6 +199,8 @@ Route::post('/administracion/reporteInventario',[ReportesController::class,'repo
 
 Route::get('dashboard/facturacion',[FacturacionController::class,'index']);
 
+Route::post('dashboard/facturacion',[FacturacionController::class,'facturar']);
+
 Route::post('dashboard/facturacion/buscarproductos',[FacturacionController::class,'buscarProductos']);
 
 Route::post('dashboard/facturacion/buscarclientes',[FacturacionController::class,'buscarClientes']);

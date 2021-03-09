@@ -33,6 +33,7 @@ var lbltotal;
 var btncreareditar;//boton a la par del campo de cliente, que si no hay un cliente seleccionado ofrece abrir modal crear, si hay seleccionado ofrece modal editar
 
 var idEmpresa;//de la empresa que esta facturando
+var idusuario;
 var cliente;//cliente que atendimos
 
 var clientes;//array que guarda el resultado de la busqueda de clientes.
@@ -73,6 +74,7 @@ function inicial() {
     lblsubtotal = document.getElementById('lblsubtotal');
     lbltotal = document.getElementById('lbltotal');
     idEmpresa = document.getElementById('idempresa').value;
+    idusuario = document.getElementById('idusuario').value;
     btnQuitarCliente = document.getElementById('btnQuitarCliente');
     btncreareditar = document.getElementById('btncreareditar');
     txtproducto = document.getElementById('txtproducto');
@@ -406,10 +408,12 @@ function vender() {
     }
 
     var form = new FormData();
+    form.append('idEmpresa', idEmpresa);
+    form.append('idUsuario', idusuario);
     form.append('token', getCookies().tokenFacturacion);
     form.append('detalles', JSON.stringify(detalles));
     if (cliente != -1) {
-        form.append('receptor', JSON.stringify(new Receptor(cliente['cli_nombre'] + ' ' + cliente['cli_apellidos'], cliente['cli_tipoCedula'], cliente['cli_cedula'], cliente['cli_direccion'], "otras", cliente['cli_telefono'], cliente['cli_correo'])));
+        form.append('receptor', JSON.stringify(new Receptor(cliente['cli_nombre'] + ' ' + cliente['cli_apellidos'], cliente['cli_tipoCedula'], cliente['cli_cedula'], cliente['dir_provincia'] + zeroPad(cliente['dir_canton'], 2)+  zeroPad(cliente['dir_distrito'], 2) , "otras", cliente['cli_telefono'], cliente['cli_correo'])));
         form.append('tipoDocumento', 'fe');
     } else {
         form.append('receptor', "");
@@ -417,10 +421,19 @@ function vender() {
     }
 
     form.append('medioPago', metodosdePago);
-    axios.post('https://webhook.site/07210713-cdd6-45d2-bd3a-5c87c6dfbbc8', form).then(function (response) {
-    //axios.post('http://201.200.147.114:8989/facturar', form).then(function (response) {
-        console.log(response.data);
-    });
+    axios.post('facturacion', form)
+        .then(function (response) {
+            console.log.response.data
+            if (response.data === 'exito') {
+                alertify.success('Exito.');
+                //cancelar();
+            } else {
+                alertify.error(response.data);
+            }
+        })
+        .catch(function (error) {
+            alertify.error('Ocurrio un error interno al intentar guardar. Por favor intente mas tarde.');
+        })
 }
 
 //clase utilizada para enviar al api de facturacion los detalles
@@ -456,11 +469,16 @@ class Receptor {
     correo;
     constructor(nombre, tipoced, ced, dir, otras, tel, correo) {
         this.nombre = nombre;
-        this.tipoCedula = tipoced;
-        this.cedula = ced;
+        this.tipoCedula = parseInt(tipoced);
+        this.cedula = parseInt(ced);
         this.direccion = dir;
         this.otrasSenas = otras;
         this.telefono = tel;
         this.correo = correo;
     }
 }
+
+function zeroPad(num, places) {
+    var zero = places - num.toString().length + 1;
+    return Array(+(zero > 0 && zero)).join("0") + num;
+  }

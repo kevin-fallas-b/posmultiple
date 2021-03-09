@@ -67,7 +67,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'America/Costa_Rica',
 
     /*
     |--------------------------------------------------------------------------
@@ -175,6 +175,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        FruitCake\Cors\CorsServiceProvider::class,
 
     ],
 
