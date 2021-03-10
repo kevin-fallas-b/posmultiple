@@ -131,8 +131,9 @@ class Auth extends Model
             )
         );
         $context  = stream_context_create($options);
-        $result = file_get_contents($url, false, $context);
+        $result = @file_get_contents($url, false, $context);
         if ($result === FALSE) { /* Handle error */
+            return 'error';
         }
         $respuesta = json_decode($result, true);
         return $respuesta['resultado']['data'];

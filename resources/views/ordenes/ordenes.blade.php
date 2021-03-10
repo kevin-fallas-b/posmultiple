@@ -19,7 +19,7 @@
 
 <input type="text" id="idusuario" hidden value="{{$_SESSION['user']->usu_id}}">
 <input type="text" id="idempresa" hidden value="{{$_SESSION['user']->usu_emp}}">
-<input type="text" id="tab" hidden value="{{$tab}}">
+<!--<input type="text" id="tab" hidden value="">-->
 
 <!-- Modal -->
 <div class="modal fade" id="cantProdModal" tabindex="-1" aria-labelledby="titleModal" aria-hidden="true">
@@ -40,6 +40,11 @@
             <label for="txtdetalle" style="position: absolute;top:-22px;">Detalle</label>
             <input type="text" class="form-control rounded" placeholder="Detalle" autocomplete="off" id="txtdetalle">
         </div>
+        <div class="input-group mt-5">
+            <label for="txtdetalle" style="position: absolute;top:-22px;">Precio actual</label>
+            <input type="text" class="form-control rounded" placeholder="Precio Actual" autocomplete="off" id="txtprecioactual" disabled>
+        </div>
+
       </div>
 
       <div class="modal-footer">
@@ -126,7 +131,7 @@
                                                 <!--<h2 id="title_orden" class="card-title">Orden</h2>-->
                                             </div>
                                         
-                                            <button id="btn_elimOrden" type="button" class="btn btn-outline-dark mt-1 mr-1 btns" onclick="eliminarOrden()">🗑️</button>
+                                            <button id="btn_elimOrden" type="button" class="btn btn-outline-dark mt-1 mr-1 btns" onclick="eliminarOrden()">❌</button>
                                         
                                             <button id="btn_guardOrden" type="button" class="btn btn-outline-dark mt-1 mr-1 btns" onclick="guardarOrden()">💾</button>
                                         </div>

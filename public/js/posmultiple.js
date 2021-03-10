@@ -65,5 +65,10 @@ function getCookies() {
         .reduce((accumulator, [key, value]) => ({ ...accumulator, [key.trim()]: decodeURIComponent(value) }), {});
 }
 function getTokenFacturacion() {
-    document.cookie = "tokenFacturacion=" + document.getElementById('tokenFact').innerHTML;
+    var token = document.getElementById('tokenFact').innerHTML;
+    if (token == 'error') {
+        alertify.error('No se pudo obtener el token para facturacion. Las facturas emitidas no seran enviadas a hacienda.')
+        return
+    }
+    document.cookie = "tokenFacturacion=" + token ;
 }

@@ -73,4 +73,8 @@ class ReportesController extends Controller
         }
         //return $pdf->stream('ReporteRestaurante_' . date("d/m/y-h:i A") . '.pdf');        
     }
+
+    public static function reporteFacturasRealizadas(){
+        
+    }
 }

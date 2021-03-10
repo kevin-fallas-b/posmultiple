@@ -32,7 +32,8 @@ class Orden extends Model
                 if($prod){ 
                     if($productos[$i][1] <= $prod[0]->pro_cantidad){
                         $nueva_cantidad =  $prod[0]->pro_cantidad - $productos[$i][1];
-                        DB::table('tbl_productoxorden')->insert(['pxo_producto'=>$productos[$i][0],'pxo_orden'=>$idOrden,'pxo_cantidad'=>$productos[$i][1],'pxo_detalles'=>$productos[$i][2]]);
+                        //insertar el precio actual del producto en la relacion productoxorden
+                        DB::table('tbl_productoxorden')->insert(['pxo_producto'=>$productos[$i][0],'pxo_orden'=>$idOrden,'pxo_cantidad'=>$productos[$i][1],'pxo_detalles'=>$productos[$i][2],'pxo_precioProducto'=>$prod[0]->pro_precio]);
                         DB::table('tbl_producto as producto')->where('pro_id',$prod[0]->pro_id)->update(['pro_cantidad'=>$nueva_cantidad]);
                     }else{
                         DB::table('tbl_productoxorden')->where('pxo_orden',$idOrden)->delete();
@@ -85,12 +86,13 @@ class Orden extends Model
                     if($productos[$j][1] <= $prod[0]->pro_cantidad){
                         if($productos[$j][3]==0){////id del proxorden , si es cero es nuevo, se inserta un nuevo producto a la orden
                             $nueva_cantidad =  $prod[0]->pro_cantidad - $productos[$j][1];
-                            DB::table('tbl_productoxorden')->insert(['pxo_producto'=>$productos[$j][0],'pxo_orden'=>$ord_id,'pxo_cantidad'=>$productos[$j][1],'pxo_detalles'=>$productos[$j][2]]);
+                            //inserté el precio actual del producto porque se insertaría un producto nuevo en la orden 
+                            DB::table('tbl_productoxorden')->insert(['pxo_producto'=>$productos[$j][0],'pxo_orden'=>$ord_id,'pxo_cantidad'=>$productos[$j][1],'pxo_detalles'=>$productos[$j][2],'pxo_precioProducto'=>$prod[0]->pro_precio]);
                         }else{
                             $pxo_actual = DB::table('tbl_productoxorden')->where('pxo_id',$productos[$j][3])->get();
                             if($pxo_actual){
                                 $nueva_cantidad =  ($prod[0]->pro_cantidad + $pxo_actual[0]->pxo_cantidad) - $productos[$j][1];
-                                DB::table('tbl_productoxorden')->where('pxo_id',$productos[$j][3])->update(['pxo_producto'=>$productos[$j][0],'pxo_orden'=>$ord_id,'pxo_cantidad'=>$productos[$j][1],'pxo_detalles'=>$productos[$j][2]]);
+                                DB::table('tbl_productoxorden')->where('pxo_id',$productos[$j][3])->update(['pxo_producto'=>$productos[$j][0],'pxo_orden'=>$ord_id,'pxo_cantidad'=>$productos[$j][1],'pxo_detalles'=>$productos[$j][2],'pxo_precioProducto'=>$prod[0]->pro_precio]);
                             }                            
                         }
                         DB::table('tbl_producto')->where('pro_id',$prod[0]->pro_id)->update(['pro_cantidad'=>$nueva_cantidad]);

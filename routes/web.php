@@ -197,6 +197,8 @@ Route::post('/administracion/reporteVentas',[ReportesController::class, 'reporte
 
 Route::post('/administracion/reporteInventario',[ReportesController::class,'reporteInventario'])->name('reporteInventario');
 
+Route::post('/administracion/reporteFacturasRealizadas',[ReportesController::class,'reporteFacturasRealizadas'])->name('reporteFacturasRealizadas');
+
 Route::get('dashboard/facturacion',[FacturacionController::class,'index']);
 
 Route::post('dashboard/facturacion',[FacturacionController::class,'facturar']);

@@ -85,7 +85,7 @@
 
                         </div>
                         <div class="card-footer">
-                            <button id="btnvender" type="button" class="btn" style="background-color: #00a65a; width: 100%; color:white" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrirModalVender()"> <i class="fa fa-shopping-cart" aria-hidden="true"> </i> Vender</button>
+                            <button id="btnvender" type="button" class="btn" style="background-color: #00a65a; width: 100%; color:white" data-toggle="modal" data-target=".bd-example-modal-lg" onclick="abrirModalVender()"> <i class="fa fa-shopping-cart" aria-hidden="true"> </i> Vender (F3)</button>
 
                         </div>
                     </div>

@@ -12,7 +12,7 @@ class OrdenesController extends Controller
     public function index()
     {
         if (DashboardController::estaLogeado()) {
-            return view('ordenes/ordenes',['tab'=>'todos']);
+            return view('ordenes/ordenes');
         }
     }
 

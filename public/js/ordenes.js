@@ -13,6 +13,7 @@ var txtCantProd;
 var txtDetProd;
 var txtbuscar;
 var titModal;
+var txtprecioactual;
 var txt_disponibles;
 var t_orden;
 var lbl_nombreProducto;
@@ -33,8 +34,6 @@ var sel_mesa;
 
 var a_productos;
 var nuevaorden;
-var tab;
-var ul_tabs;
 
 var idUsu;
 var idEmp;
@@ -43,15 +42,15 @@ var prod_id;
 var editando;//bandera
 var ideditando;
 
-var mesas;//array que contiene el resultado de la busqueda de las mesas de la empresa
+var mesas;//guarda la información de las mesas de la empresa actual
 var mesasAux;
-var productos;
-var productosOrden;
+var productos;//guarda la información  (proveedor, categoría) de productos de una empresa, filtrando por nombre y que la cantidad de producto en inventario sea al menos 1 
+var productosOrden;//guarda la información de las ordenes con sus productos, de la empresa actual
 var producto;
 var productosAux;
-var ordenes;
+var ordenes;//guarda la información (mesa si tuviera,usuario) de ordenes de la empresa actual 
 var ordenSel;
-var categorias;
+var categorias;//guarda la información de categorías de la empresa actual
 
 var cant;
 var edicion;
@@ -79,15 +78,14 @@ function inicial() {
     tabla =  document.getElementById('tabla_productos').getElementsByTagName('tbody')[0];
     tablaCompleta = document.getElementById('tabla_productos');
     tbody_acompanamientos = document.getElementById('tbody_acompanamientos');
-    ul_tabs = document.getElementById('ul_tabs');
 
     txtbuscar = document.getElementById('txtbuscarNombre');
     txtCantProd = document.getElementById('txtCantidadProducto');
     txtDetProd = document.getElementById('txtdetalle');
     txt_disponibles = document.getElementById('txt_disponibles');
     titModal = document.getElementById('titleModal');
-    //t_orden = document.getElementById('title_orden');
-    tab = document.getElementById('tab').value;
+    txtprecioactual = document.getElementById('txtprecioactual');
+    
     lbl_nombreProducto = document.getElementById('lbl_nombreProducto');
     h_mesero = document.getElementById('h_mesero');
     
@@ -117,10 +115,9 @@ function inicial() {
     ind_elim = false;
     clickMesa = false;
 
-    if(tab=='todos'){
-      cargarOrdenes();
-      cargarProductosOrden();
-    }
+   
+    cargarOrdenes();
+    cargarProductosOrden();
     cargarCategorias();
     cargarMesas(false);
 }
@@ -178,25 +175,25 @@ function cargarOrden(idMesa){
 }
 
 function ordenSinMesa(){ 
-   clickMesa = false;
-   idMesa = 0;
-   edicion = false;
-   editando = false;
-   orden_mesa = false;
-   btn_elimOrden.style.display='none';
+  clickMesa = false;
+  idMesa = 0;
+  edicion = false;
+  editando = false;
+  orden_mesa = false;
+  btn_elimOrden.style.display='none';
    
-   limpiarOrden();
-   cargarProductos('');
-   bloqueos('none','block','none','none','none',false);
-   $('#checkpago').bootstrapToggle('off');
-   $('#checkentrega').bootstrapToggle('off');
-   chk_entrega.disabled=true;
-   chk_pago.disabled=true;
+  limpiarOrden();
+  cargarProductos('');
+  bloqueos('none','block','none','none','none',false);
+  $('#checkpago').bootstrapToggle('off');
+  $('#checkentrega').bootstrapToggle('off');
+  chk_entrega.disabled=true;
+  chk_pago.disabled=true;
    
-   document.getElementById('div_chks').style.display='none';
-   btn_guardOrden.style.display='block';
-   sel_mesa.style.display='none';
-  }
+  document.getElementById('div_chks').style.display='none';
+  btn_guardOrden.style.display='block';
+  sel_mesa.style.display='none';
+}
 
 function cargarMesas(est) {
   if (idUsu != null) {
@@ -253,7 +250,7 @@ function cagarSelMesas(){
   }
 }
 
-function onDrag(){
+function onDrag(){//Para que las mesas no se puedan arratrar
   draggable.onDrag = function(newPosition) {
     newPosition.top = this.rect.top;
     newPosition.left = this.rect.left;     
@@ -262,83 +259,81 @@ function onDrag(){
   
 function guardarOrden(){
   if(tabla.rows.length>0){
-  var form = new FormData();
+    var form = new FormData();
 
-  if(idMesa>0){
-    form.append('id_mesa',idMesa);    
-  }
+    if(idMesa>0){
+      form.append('id_mesa',idMesa);    
+    }
 
-  if(editando){
-    form.append('id_orden',ideditando);
-    if(chk_entrega.checked){
-      form.append('entregada', 'E');
-    }else{
+    if(editando){
+      form.append('id_orden',ideditando);
+      if(chk_entrega.checked){
+        form.append('entregada', 'E');
+      }else{
         form.append('entregada', 'N');
+      }
+      if(chk_pago.checked){
+        form.append('pagada', 'P');
+      }else{
+          form.append('pagada', 'N');
+      }
+      form.append('id_mesa',sel_mesa.value);
     }
-    if(chk_pago.checked){
-      form.append('pagada', 'P');
-    }else{
-        form.append('pagada', 'N');
+    
+    var cont = 0;
+
+    if(!editando){
+      form.append('id_usuario',idUsu);
+      form.append('id_empresa',idEmp);
+      var f = new Date();
+      var fecha;
+      var mes = f.getMonth()+1;//porque enero es el mes 0
+      fecha =f.getDate()+'-'+mes+'-'+f.getFullYear()+' '+f.getHours()+':'+f.getMinutes()+':'+f.getSeconds();
+      form.append('fecha',fecha);
     }
-    form.append('id_mesa',sel_mesa.value);
 
-  }
-  var cont = 0;
-
-  if(!editando){
-    form.append('id_usuario',idUsu);
-    form.append('id_empresa',idEmp);
-    var f = new Date();
-    var fecha;
-    var mes = f.getMonth()+1;
-    //fecha = mes+'/'+f.getDate()+'/'+f.getFullYear()+' '+hora+':'+f.getMinutes()+':'+f.getSeconds();
-    fecha =f.getDate()+'-'+mes+'-'+f.getFullYear()+' '+f.getHours()+':'+f.getMinutes()+':'+f.getSeconds();
-    console.log('fecha:: '+fecha);    
-    form.append('fecha',fecha);
-  }
-
-  for(var i=0; i < tabla.rows.length; i++){
-    form.append('productos['+cont+'][0]',tabla.rows[i].cells[0].innerHTML);//id del producto
-    form.append('productos['+cont+'][1]',tabla.rows[i].cells[1].innerHTML);//cantidad
-    form.append('productos['+cont+'][2]',tabla.rows[i].cells[3].innerHTML);//detalle
-    form.append('productos['+cont+'][3]',tabla.rows[i].cells[5].innerHTML);//id de productoxorden
-    cont++;
-  }
-  form.append('total',div_total.innerHTML);
-  if(idsPxOEliminados.length>0){
-    var cont2 = 0;
-    for(var k=0; k<idsPxOEliminados.length; k++){
-      form.append('idsEliminados['+cont2+']',idsPxOEliminados[k]);
-      cont2++;
+    for(var i=0; i < tabla.rows.length; i++){
+      form.append('productos['+cont+'][0]',tabla.rows[i].cells[0].innerHTML);//id del producto
+      form.append('productos['+cont+'][1]',tabla.rows[i].cells[1].innerHTML);//cantidad
+      form.append('productos['+cont+'][2]',tabla.rows[i].cells[3].innerHTML);//detalle
+      form.append('productos['+cont+'][3]',tabla.rows[i].cells[5].innerHTML);//id de productoxorden
+      cont++;
     }
-  }
-  axios.post('guardarOrden', form)
-        .then(function (response) {
-            if (response.data === 'exito') {
-              if (editando) {
-                alertify.success('Orden editada correctamente.');
+    form.append('total',div_total.innerHTML);
+    if(idsPxOEliminados.length>0){
+      var cont2 = 0;
+      for(var k=0; k<idsPxOEliminados.length; k++){
+        form.append('idsEliminados['+cont2+']',idsPxOEliminados[k]);
+        cont2++;
+      }
+    }
+    axios.post('guardarOrden', form)
+          .then(function (response) {
+              if (response.data === 'exito') {
+                if (editando) {
+                  alertify.success('Orden editada correctamente.');
+                } else {
+                  alertify.success('Orden registrada correctamente.');
+                } 
+                cargarOrdenes();
+                cargarProductosOrden();
+                cancelarEnOrden();
               } else {
-                alertify.success('Orden registrada correctamente.');
-              } 
-              cargarOrdenes();
-              cargarProductosOrden();
-              cancelarEnOrden();
-            } else {
-                if (response.data === 'PI'){
-                  cargarProductos('');
-                  alertify.error('Productos insuficientes para alguno de los productos ingresados. Revise la cantidad ingresada productos que ha ingresado');
-                }else if(response.data === 'mesa_con_ordenes'){
-                  alertify.error('No se puede cambiar la orden a la mesa seleccionada porque la mesa ya está asociada a una orden.');
-                }else{
-                  alertify.error(response.data);
-                }
-            }
-        })
-        .catch(function (error) {
-            alertify.error('Ocurrio un error interno al intentar guardar. Por favor intente mas tarde.');
-        })
+                  if (response.data === 'PI'){
+                    cargarProductos('');
+                    alertify.error('Productos insuficientes para alguno de los productos ingresados. Revise la cantidad ingresada productos que ha ingresado');
+                  }else if(response.data === 'mesa_con_ordenes'){
+                    alertify.error('No se puede cambiar la orden a la mesa seleccionada porque la mesa ya está asociada a una orden.');
+                  }else{
+                    alertify.error(response.data);
+                  }
+              }
+          })
+          .catch(function (error) {
+              alertify.error('Ocurrio un error interno al intentar guardar. Por favor intente mas tarde.');
+          })
   }else{
-    alertify.error('La orden debe tener al menos un producto.');
+      alertify.error('La orden debe tener al menos un producto.');
   }
 }
 
@@ -419,20 +414,20 @@ function buscarProductoPorNombre(texto){
 
 function cargarProductos(nombre){
   if(idEmp != null){
-      var form = new FormData();
-      form.append('id_empresa', idEmp);
-      form.append('nombre',nombre);
-      axios.post('cargarProductos',form)
-          .then(function (response) {
-            if(response.data.length===0){
-              alertify.error('No hay productos asociados a la empresa.');
-            }
-            productos = response.data;
-            mostrarProductos(true,0);
-          })
-          .catch(function (error) {
-            alertify.error('Ocurrio un error interno al intentar cargar los productos. Por favor intente mas tarde.');
-          })
+    var form = new FormData();
+    form.append('id_empresa', idEmp);
+    form.append('nombre',nombre);
+    axios.post('cargarProductos',form)
+        .then(function (response) {
+          if(response.data.length===0){
+            alertify.error('No hay productos asociados a la empresa.');
+          }
+          productos = response.data;
+          mostrarProductos(true,0);
+        })
+        .catch(function (error) {
+          alertify.error('Ocurrio un error interno al intentar cargar los productos. Por favor intente mas tarde.');
+        })
   }
 }
  
@@ -561,7 +556,8 @@ function mostrarOrden(idOrden,edt,clkMesa,mostBtns){
       }else{
         btnElim='<button type="button" class="btn btn-outline-dark mt-1 mr-1 btns"></button>'
       }
-      var total = prodxorden[i]['pxo_cantidad'] * prodxorden[i]['pro_precio'];
+      //cuando muestro la orden, muestro el precio que tenía el producto cuando se registró la orden
+      var total = prodxorden[i]['pxo_cantidad'] * prodxorden[i]['pxo_precioProducto'];
       tabla.innerHTML += '<tr>'
                             +'<td hidden>'+prodxorden[i]['pro_id']+'</td>'
                             +'<td hidden>'+prodxorden[i]['pxo_cantidad']+'</td>' 
@@ -569,7 +565,7 @@ function mostrarOrden(idOrden,edt,clkMesa,mostBtns){
                                 +'<div class="col1_orden">'
                                     +prodxorden[i]['pro_nombre']+' x '+prodxorden[i]['pxo_cantidad']
                                     +'<label class="precio"> '
-                                        +prodxorden[i]['pro_precio']
+                                        +prodxorden[i]['pxo_precioProducto']
                                     +'</label>'
                                 +'</div>'
                             +'</td>'
@@ -600,8 +596,9 @@ function agregarProductoOrden(){//se ejecuta cuando se da click a un producto
     lbl_nombreProducto.innerHTML = producto[0]['pro_nombre'];
     txt_disponibles.innerHTML='';
     txt_disponibles.innerHTML= 'Disponibles: '+producto[0]['pro_cantidad'];
+    txtprecioactual.value=producto[0]['pro_precio'];
     txtCantProd.focus();
-    mostrarInfoProductoXOrden(producto[0]['pro_id']);
+    mostrarInfoProductoXOrden(producto[0]['pro_id']);//si el producto ya estaba en la orden, muestra la información en la ventana modal
   }
 }
 
@@ -614,6 +611,7 @@ function agregarInfoProducto(){//se invoca cuando le da ok a la ventana modal
           if(valExistenciaProdTabla(producto[0]['pro_id'],producto[0]['pro_precio'],producto[0]['pro_nombre'],txtDetProd.value,cant)){
             //alertify.success('Producto ya existente en la tabla. Se agregó la información ingresada al producto');
           }else{
+            //Como es un nuevo producto que se agrega a la orden, se agrega con su precio actual
             var total = cant * producto[0]['pro_precio'];
             tabla.innerHTML += '<tr>'
                                   +'<td hidden>'+producto[0]['pro_id']+'</td>'
@@ -659,6 +657,7 @@ function mostrarInfoProductoXOrden(prod_id){
   return false;
 }
 
+//cambiar pro_precio por pro_precioProducto------------------------------------------------------------------------------------------------------------------------
 function valExistenciaProdTabla(prod_id,pro_precio,pro_nombre,det,cant){
   for(var i=0; i < tabla.rows.length; i++){
     if(prod_id == tabla.rows[i].cells[0].innerHTML){ 

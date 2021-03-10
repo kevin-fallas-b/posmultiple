@@ -1,4 +1,20 @@
 window.addEventListener('load', inicial, false);
+window.addEventListener("keydown", function (event) {
+    if (event.defaultPrevented) {
+        return; // Do nothing if the event was already processed
+    }
+    switch (event.key) {
+        case "F3":
+            abrirModalVender(true);
+            break;
+        default:
+            return; // Quit when this doesn't handle the key event.
+    }
+
+    // Cancel the default action to avoid it being handled twice
+    event.preventDefault();
+});
+
 document.getElementById("txtproducto").addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
         return; // Do nothing if the event was already processed
@@ -21,6 +37,7 @@ document.getElementById("txtproducto").addEventListener("keydown", function (eve
     // Cancel the default action to avoid it being handled twice
     event.preventDefault();
 });
+
 
 var temporizador;//temporizador que usamos para solo buscar clientes despues de que el usuario dejo de digitar en campo nombre
 
@@ -95,7 +112,10 @@ function inicial() {
     metodosdePago.push(1);
 }
 
-function abrirModalVender() {
+function abrirModalVender(tecla = false) {
+    if (tecla == true) {
+        document.getElementById('btnvender').click();
+    }
     lbltotalModal.innerHTML = lbltotal.innerHTML;
     lblPendienteModal.innerHTML = lbltotal.innerHTML;
     lblVueltoModal.innerHTML = '0';
@@ -126,23 +146,23 @@ function agregarMetodoPago(codigo, nombre) {
 function calcularPendientes() {
     var inputs = document.getElementsByClassName('metodoDePago');
     var sumaInputs = 0
-    var totalAPagar = parseFloat(lbltotal.innerHTML);
+    var totalAPagar = formatStringToFloat(lbltotal.innerHTML);
     for (var i = 0; i < inputs.length; i++) {
         if (inputs[i].getElementsByTagName('input')[0].value == null || inputs[i].getElementsByTagName('input')[0].value == '') {
             inputs[i].getElementsByTagName('input')[0].value = 0;
             inputs[i].getElementsByTagName('input')[0].select();
         }
-        sumaInputs += parseFloat(inputs[i].getElementsByTagName('input')[0].value);
+        sumaInputs += formatStringToFloat(inputs[i].getElementsByTagName('input')[0].value);
     }
     var pendiente = totalAPagar - sumaInputs;
 
     if (pendiente > 0) {
-        lblPendienteModal.innerHTML = pendiente;
+        lblPendienteModal.innerHTML = formatNumber(pendiente);
         lblVueltoModal.innerHTML = 0;
     } else {
         lblPendienteModal.innerHTML = 0;
         if (-1 * pendiente > 0)
-            lblVueltoModal.innerHTML = -1 * pendiente;
+            lblVueltoModal.innerHTML = formatNumber(-1 * pendiente);
     }
 }
 
@@ -234,13 +254,12 @@ function setmetodopago(tipo, nombre) {
 
 function calcularfila(tr) {
     fila = tr.getElementsByTagName('td')
-    var cantidad = fila[1].querySelector("#cant").value
-    var precio = fila[2].querySelector("#pre").value
-    var descuento = fila[3].querySelector("#desc").value
-
-    var total = cantidad * precio;
+    var cantidad = parseFloat(fila[1].querySelector("#cant").value)
+    var precio = formatStringToFloat(fila[2].querySelector("#pre").value)
+    var descuento = parseFloat(fila[3].querySelector("#desc").value)
+    var total = (cantidad * precio);
     total = total - (total * (descuento / 100));
-    fila[4].innerHTML = total;
+    fila[4].innerHTML = formatNumber(total);
 
     calcularfactura();
 }
@@ -252,22 +271,22 @@ function calcularfactura() {
     total = 0;
     for (var i = 0; i < factura.length; i++) {
         //aqui calculo numeros de cada fila;
-        var can = parseInt(factura[i].getElementsByTagName('td')[1].querySelector("#cant").value)
-        var precio = parseInt(factura[i].getElementsByTagName('td')[2].querySelector("#pre").value)
-        var de = parseInt(factura[i].getElementsByTagName('td')[3].querySelector("#desc").value)
+        var can = formatStringToFloat(factura[i].getElementsByTagName('td')[1].querySelector("#cant").value)
+        var precio = formatStringToFloat(factura[i].getElementsByTagName('td')[2].querySelector("#pre").value)
+        var de = formatStringToFloat(factura[i].getElementsByTagName('td')[3].querySelector("#desc").value)
         var tota = can * precio;
         var imp = tota * 0.13;
         var des = tota * (de / 100);
 
-        total += parseInt(factura[i].getElementsByTagName('td')[4].innerHTML);
+        total += formatStringToFloat(factura[i].getElementsByTagName('td')[4].innerHTML);
         impuestos += imp;
         descuentos += des;
         subtotal += tota - imp;
     }
-    lbltotal.innerHTML = total;
-    lblsubtotal.innerHTML = subtotal;
-    lblimpuestos.innerHTML = impuestos;
-    lbldescuentos.innerHTML = descuentos;
+    lbltotal.innerHTML = formatNumber(total);
+    lblsubtotal.innerHTML = formatNumber(subtotal);
+    lblimpuestos.innerHTML = formatNumber(impuestos);
+    lbldescuentos.innerHTML = formatNumber(descuentos);
 }
 
 function mensajeagregardetalle() {
@@ -343,8 +362,6 @@ function esconderresultadosproductos() {
 }
 
 function agregardetalle(idpro) {
-
-
     for (var i = 0; i < productos.length; i++) {
         if (productos[i]['pro_id'] == idpro) {
 
@@ -369,19 +386,20 @@ function agregardetalle(idpro) {
             var total = fila.insertCell(4);
             var acciones = fila.insertCell(5);
             //var contenerdoridproducto = fila.insertCell(6);
-
             nombre.innerHTML = productos[i]['pro_nombre'];
             cantidad.innerHTML = '<input type="text" id="cant" value="1" class="form-control campoinvisible" onfocus="this.type = \'number\'; select()" onblur="this.type = \'text\'; calcularfila(this.closest(\'tr\'))">'
-            precio.innerHTML = '<input type="text" id="pre" value="' + productos[i]['pro_precio'] + '" class="form-control campoinvisible" onfocus="this.type = \'number\'; select()" onblur="this.type = \'text\'; calcularfila(this.closest(\'tr\'))">'
+            precio.innerHTML = '<input type="text" id="pre" value="' + formatNumber(productos[i]['pro_precio']) + '" class="form-control campoinvisible" onfocus="formatCampoStringToNum(this,this.value);this.type = \'number\'; select()" onblur="this.type = \'text\'; calcularfila(this.closest(\'tr\')); formatCampoNumToString(this,this.value)">'
             descuento.innerHTML = '<input type="text" id="desc" value="0" class="form-control campoinvisible" onfocus="this.type = \'number\'; select()" onblur="this.type = \'text\'; calcularfila(this.closest(\'tr\'))">'
-            total.innerHTML = productos[i]['pro_precio'];
+            total.innerHTML = formatNumber(productos[i]['pro_precio']);
             //contenerdoridproducto.innerHTML = idpro;
             //contenerdoridproducto.style.visibility = 'hidden'
-
             acciones.innerHTML = '<button type="button" class="btn btn-sm btn-danger fa fa-window-close " onclick="eliminarfila(this.closest(\'tr\'))"></button><input type="text" id="idpro" value="' + idpro + '" hidden>'
-
             factura.push(fila);
             document.getElementById('txtproducto').value = "";
+            eventListenerEnter(precio);
+            eventListenerEnter(cantidad);
+            eventListenerEnter(descuento);
+
             break;
         }
     }
@@ -413,7 +431,7 @@ function vender() {
     form.append('token', getCookies().tokenFacturacion);
     form.append('detalles', JSON.stringify(detalles));
     if (cliente != -1) {
-        form.append('receptor', JSON.stringify(new Receptor(cliente['cli_nombre'] + ' ' + cliente['cli_apellidos'], cliente['cli_tipoCedula'], cliente['cli_cedula'], cliente['dir_provincia'] + zeroPad(cliente['dir_canton'], 2)+  zeroPad(cliente['dir_distrito'], 2) , "otras", cliente['cli_telefono'], cliente['cli_correo'])));
+        form.append('receptor', JSON.stringify(new Receptor(cliente['cli_nombre'] + ' ' + cliente['cli_apellidos'], cliente['cli_tipoCedula'], cliente['cli_cedula'], cliente['dir_provincia'] + zeroPad(cliente['dir_canton'], 2) + zeroPad(cliente['dir_distrito'], 2), "otras", cliente['cli_telefono'], cliente['cli_correo'])));
         form.append('tipoDocumento', 'fe');
     } else {
         form.append('receptor', "");
@@ -481,4 +499,51 @@ class Receptor {
 function zeroPad(num, places) {
     var zero = places - num.toString().length + 1;
     return Array(+(zero > 0 && zero)).join("0") + num;
-  }
+}
+
+//le agrega el event listener que regresa focus a barra de busqueda al elemento recibido por parametro
+function eventListenerEnter(elemento) {
+    elemento.addEventListener("keydown", function (event) {
+        if (event.defaultPrevented) {
+            return; // Do nothing if the event was already processed
+        }
+        switch (event.key) {
+            case "Enter":
+                txtproducto.focus();
+                break;
+            default:
+                return; // Quit when this doesn't handle the key event.
+        }
+        // Cancel the default action to avoid it being handled twice
+        event.preventDefault();
+    });
+}
+
+//regex que le da formato con , y . a un string que tiene un numero
+function formatNumber(x) {
+    if (isNaN(x)) return "";
+
+    n = x.toString().split('.');
+
+    numSinDec = n[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    if(n.length>1){
+        if(n[1].length>=2){
+            return numSinDec+"."+n[1].substring(0,2);
+        }
+        return numSinDec+"."+n[1];
+    }else{
+        return numSinDec+".00";
+    }
+}
+//agarra un float con separadores de miles representado en un string y lo retorna como float
+function formatStringToFloat(num) {
+    return parseFloat(num.replace(/,/g, ''));
+}
+
+//usado para acomodar el valor cuando se cambia en el GUI, como campo precio o descuento
+function formatCampoNumToString(campo,valor){
+    campo.value = formatNumber(valor);
+}
+function formatCampoStringToNum(campo,valor){
+    campo.value = formatStringToFloat(valor);
+}

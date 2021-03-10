@@ -16,7 +16,7 @@ class Dashboard extends Model
         $iddireccion = DB::table('tbl_direccion')->insertGetId(['dir_provincia' => $provincia, 'dir_canton' => $canton, 'dir_distrito' => $distrito, 'dir_otrasSenas' => $otrassenas]);
         if (is_numeric($iddireccion)) {
             //si se guardo existosamente la direccion, intentar insertar el cliente
-            if ($tipocedula == 1) {
+            if ($tipocedula == 2) {
                 $apellidos = '';
             }
             if (DB::table('tbl_cliente')->insert(['cli_cedula' => $cedula, 'cli_tipocedula' => $tipocedula, 'cli_nombre' => $nombre, 'cli_apellidos' => $apellidos, 'cli_telefono' => $telefono, 'cli_correo' => $correo, 'cli_direccion' => $iddireccion, 'cli_empresa' => $idemp])) {
